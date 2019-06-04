@@ -1,0 +1,47 @@
+class BusinessObject {
+  int numOfStars;
+  String businessId;
+  String businessName;
+  ArrayList businessReviewList=new ArrayList<ReviewObject>();
+  int avgStars;
+  PImage star = loadImage("starImage.png");
+  PFont font;
+
+  BusinessObject(String businessId, ArrayList<ReviewObject> reviews, PFont font) {
+    for (int index=0; index<reviews.size(); index++) {
+      ReviewObject tmpReview = (ReviewObject)reviews.get(index);
+      if (tmpReview.businessId.equals(businessId)) {
+        this.businessName =tmpReview.businessName;
+
+        businessReviewList.add(tmpReview);                  //all reviews of this particular business will be stored in businessReviewList
+        this.numOfStars+=tmpReview.numOfStars;
+      }
+    }
+
+    //ReviewObject tmpReview =(ReviewObject) businessReviewList.get(0);  //
+    //this.businessName=tmpReview.businessName;                      //sets the business name (all the same name in the businessReviewList as all from same business)
+
+    this.font=font;
+    textFont(font);
+    avgStars = numOfStars/businessReviewList.size();
+  }
+
+  void draw() {
+    text(businessName, 100, 100);
+
+    star.resize(STAR_WIDTH, STAR_HEIGHT);                  //average stars printed to screen
+    int starXpos = 50;
+    for (int i=0; i < avgStars; i++)
+    {
+        image(star, starXpos, 150);
+        starXpos+=55;
+    }
+    
+    //int starStart=1900;
+    //for (int index=1; index<=avgStars; index++) {          //does not work in practise yet but leave in.
+    //  image(star, starStart, 1900);
+    //  delay(2000);
+    // starStart+=STAR_WIDTH;
+    //}
+  }
+}

@@ -1,0 +1,7 @@
+final int SCREEN_HEIGHT = 2000;
+final int SCREEN_WIDTH = 2000;
+final int STAR_WIDTH=50;
+final int STAR_HEIGHT=50;
+final int EVENT_NULL=0;
+final int EVENT_BUTTON1=1;
+final int EVENT_BUTTON2=2;

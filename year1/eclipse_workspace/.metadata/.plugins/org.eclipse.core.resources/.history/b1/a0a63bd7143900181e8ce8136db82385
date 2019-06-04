@@ -1,0 +1,92 @@
+package OrderProgram;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Inventory {
+	public static ArrayList<Item> itemList = new ArrayList<Item>();
+	public static ArrayList<Order> orderList = new ArrayList<Order>();
+	public static ArrayList<Shipment> shipList = new ArrayList<Shipment>();
+	
+	public static void main(String[] args) {
+		
+		System.out.println("1) Add an item to the inventory,");
+		System.out.println("2) Find the quantity of a named item,");
+		System.out.println("3) Create an order,");
+		System.out.println("4) Print all item details,");
+		System.out.println("5) Process an order,");
+		System.out.println("6) Exit.");
+		System.out.println("Please enter option number you wish to select:");
+		Scanner optSc = new Scanner(System.in);
+		int option = optSc.nextInt();
+		if(option == 1) {
+			System.out.println("Enter detais of item you wish to add: ");
+			System.out.println("(itemId, itemName, itemPrice, itemQuantity");
+			Scanner itemSc = new Scanner(System.in);
+			String detailString = itemSc.next();
+			String [] itemDetails = new String[4];
+			itemDetails = detailString.split(",");
+			String itemId = itemDetails[0];
+			String itemName = itemDetails[1];
+			String p = itemDetails[2];
+			double itemPrice = Double.parseDouble(p);
+			String q = itemDetails[3];
+			int itemQuantity = Integer.parseInt(q);
+			addItemToInventory(itemId, itemName, itemPrice, itemQuantity);
+			printAllItemDetails();
+		}
+		else if(option == 2) {
+			
+		}
+		else if(option == 3) {
+			
+		}
+		else if(option == 4) {
+			
+		}
+		else if(option == 5) {
+			
+		}
+		else if(option == 6 || optSc.hasNext("exit")) {
+			
+		}
+	}
+	
+	public static void addItemToInventory(String itemId, String itemName, double itemPrice, int itemQuantity) {
+		Item tmpItem = new Item(itemId, itemName, itemPrice, itemQuantity);
+		itemList.add(tmpItem);
+	}
+
+	public static ArrayList<Item> findItem (String itemName) {
+		ArrayList<Item> itemsFound = new ArrayList<Item>();
+		for(int i=0; i<itemList.size(); i++) {
+			Item tmp = itemList.get(i);
+			if(tmp.itemName == itemName) {
+				itemsFound.add(tmp);
+			}
+		}
+		return itemsFound;
+	}
+	
+	public static void createOrder(Item item) {
+		Order tempOrder = new Order(item, orderList.size()+1);
+		orderList.add(tempOrder);
+	}
+	
+	public static void createShipment(Shipment shipment) {
+		shipList.add(shipment);
+		}
+	
+	public static void processOrder(int orderId) {
+		Shipment shipment = new Shipment(orderId);
+		createShipment(shipment);
+	}
+	
+	public static void printAllItemDetails() {
+		for(int i=0; i<itemList.size(); i++) {
+			Item tmp = itemList.get(i);
+			System.out.println("ItemId = "+tmp.itemId+", ItemName = "+tmp.itemName
+					+", ItemPrice = "+tmp.itemPrice+", ItemQuantity = "+tmp.itemQuantity);
+		}
+	}
+}

@@ -1,0 +1,8 @@
+package OrderProgram;
+
+public class Shipment {
+	
+	public Shipment() {
+		
+	}
+}

@@ -1,0 +1,32 @@
+import java.awt.Component;
+
+import javax.swing.JOptionPane;
+
+public class SquareAges {
+	public static final int MAX_AGE = 123;
+	public static final int MIN_AGE = 0;
+	public static final int CURRENT_YEAR = 2017;
+	public static final int BASE_YEAR = CURRENT_YEAR - MAX_AGE;
+	
+		public static void main(String[] args) {
+			
+			for(int age=1 ; age <= MAX_AGE; age++)
+			{
+				int squareAge = age * age;
+				JOptionPane.showMessageDialog(null, squareAge );
+			}
+			
+		
+		
+	
+		
+		
+		
+		
+		
+		
+	
+
+	}
+
+}

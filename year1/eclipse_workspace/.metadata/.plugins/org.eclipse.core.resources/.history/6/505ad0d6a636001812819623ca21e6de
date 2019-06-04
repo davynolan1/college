@@ -1,0 +1,34 @@
+package ConnectFour;
+
+public class Connect4Grid2DArray implements Connect4Grid{
+	
+	public void emptyGrid() {
+		
+	}
+	
+	public boolean isValidColumn(int column) {
+		return
+	}
+	public boolean isColumnFull(int column) {
+		return
+	}
+	public void dropPiece(ConnectPlayer player, int column) {
+		
+	}
+	public boolean didLastPieceConnect4() {
+		return
+	}
+	public boolean isGridFull() {
+		return
+	}
+
+	
+	public String toString() {
+		return "Connect4Grid [didLastPieceConnect4()=" + didLastPieceConnect4() + ", isGridFull()=" + isGridFull()
+				+ "]";
+	}
+	
+	
+	
+	
+}

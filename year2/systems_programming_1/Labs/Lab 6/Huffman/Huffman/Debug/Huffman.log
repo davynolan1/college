@@ -1,0 +1,4 @@
+﻿  huff.c
+c:\users\davy\documents\college documents\2nd year cs\systems programming 1\labs\lab 6\huffman\huffman\huff.c(126): warning C4047: 'function': 'huffchar *' differs in levels of indirection from 'huffchar *[256]'
+c:\users\davy\documents\college documents\2nd year cs\systems programming 1\labs\lab 6\huffman\huffman\huff.c(126): warning C4024: 'bubbleSort': different types for formal and actual parameter 1
+  Huffman.vcxproj -> C:\Users\Davy\Documents\COLLEGE DOCUMENTS\2nd Year CS\Systems Programming 1\Labs\Lab 6\Huffman\Debug\Huffman.exe

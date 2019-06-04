@@ -1,0 +1,36 @@
+class BusinessObject {
+  int numOfStars;
+  String businessId;
+  String businessName;
+  ArrayList businessReviewList=new ArrayList<reviewObject>();
+  int avgStars;
+  PImage star = loadImage("starImage.png");
+  PFont font;
+
+  BusinessObject(String businessId, ArrayList<ReviewObject> reviews, PFont font) {
+    for (int index=0; index<reviews.size(); index++) {
+      ReviewObject tmpReview = (ReviewObject)reviews.get(index);
+      if (tmpReview.businessId.equals(businessId)) {
+        businessReviewList.add(tmpReview);                  //all reviews of this particular business will be stored in businessReviewList
+        numOfStars+=tmpReview.numOfStars;
+      }
+    }
+
+    ReviewObject tmpReview =(ReviewObject) businessReviewList.get(0);  //ERROR: the error I'm being thrown is that it says this arraylist is empty
+    this.businessName=tmpReview.businessName;                      //sets the business name (all the same name in the businessReviewList as all from same business)
+    this.font=font;
+    textFont(font);
+    avgStars = numOfStars/businessReviewList.size();
+    star.resize(STAR_WIDTH, STAR_HEIGHT);
+  }
+
+  void draw() {
+    int starStart=1900;
+    text(businessName,100, 0);
+    for (int index=1; index<=avgStars; index++) {
+      image(star, starStart, 1900);
+      delay(2000);
+      starStart+=STAR_WIDTH;
+    }
+  }
+}

@@ -1,0 +1,135 @@
+PFont words;
+ArrayList<ReviewObject>reviewsList;
+String Review1;
+ArrayList<Widget>widgetList;
+color color1 = (255);
+color color2 = (0);
+ArrayList<Widget> firstList;
+ArrayList<Widget> secondList;
+Screen currentScreen;
+Screen screenQuery1;
+Screen screenQuery2;
+BusinessObject currentBusiness;
+
+void settings() {
+  size(SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+void setup() {
+  background(0);
+  reviewsList = new ArrayList<ReviewObject>();
+  String[] reviews = loadStrings("reviews_cleaned.csv");
+  PFont words = loadFont("AgencyFB-Reg-48.vlw");
+  textFont(words);
+  textSize(20);
+
+  for (int i=0; i<reviews.length; i++) 
+  {
+    String[] reviewsProperties = reviews[i].split(",");
+
+    String userId = reviewsProperties[0];
+    String userName = reviewsProperties[1];
+    String businessId = reviewsProperties[2];
+    String businessName = reviewsProperties[3];
+    String s = reviewsProperties[4];
+    int stars = int(s);
+    String date = reviewsProperties[5];
+    String text =reviewsProperties[6];
+    String u =reviewsProperties[7];
+    int useful = int(u);
+    String f = reviewsProperties[8];
+    int funny = int(f);
+    String c= reviewsProperties[9];
+    int cool = int(c);
+
+
+    ReviewObject reviewObject= new ReviewObject(userId, userName, businessId, businessName, stars, date, text, useful, funny, cool);
+    reviewsList.add(reviewObject);
+  }
+
+  currentBusiness = new BusinessObject("AEx2SYEUJmTxVVB18LICwA", reviewsList, words);    //test-user will be entering the business name and this will generate the ID to be passed in.
+
+  //widgets tests
+  firstList = new ArrayList<Widget>();                      //widgets that will be on screen 1 (homepage - trending resteraunts)
+  secondList = new ArrayList<Widget>();                      //widgets that will be on screen 2 (business page)
+
+  Widget widget1=new Widget(100, 50, 250, 50, 
+    "Next screen", color(100), 
+    words, EVENT_BUTTON1);
+  addWidget( widget1, firstList);
+
+  Widget widget2 = new Widget(100, 50, 250, 50, 
+    "Go back", color(100), 
+    words, EVENT_BUTTON2);   
+  addWidget( widget2, secondList);
+
+  Widget widget3 = new Widget(100, 150, 250, 50, "#1 BUSINESS", color(100), words, EVENT_BUTTON3);
+  addWidget(widget3, firstList);
+
+  Widget widget4 = new Widget(100, 250, 250, 50, "#2 BUSINESS", color(100), words, EVENT_BUTTON4);
+  addWidget(widget4, firstList);
+
+  Widget widget5 = new Widget(100, 350, 250, 50, "#3 BUSINESS", color(100), words, EVENT_BUTTON5);
+  addWidget(widget5, firstList);
+
+  screenQuery1 = new Screen(color1, firstList);
+  screenQuery2 = new Screen(color2, secondList);
+  currentScreen = screenQuery1;
+}
+
+void draw() {
+  currentScreen.draw();
+  if (currentScreen == screenQuery1)
+  {
+    text("Trending now", 100, 0);                             //heading for homepage if on homepage screen.
+  } else if (currentScreen == screenQuery2)
+  {
+    currentBusiness.draw();
+  }
+}
+
+void mouseMoved() {                                                  //widgets highlighted to show they are clickable
+  int event;
+  ArrayList widgetList = currentScreen.getWidgets();
+  for (int i = 0; i<widgetList.size(); i++) {
+    Widget aWidget = (Widget) widgetList.get(i);
+    event = aWidget.getEvent(mouseX, mouseY);
+    if (event != EVENT_NULL) {
+      aWidget.mouseOver();
+    } else
+      aWidget.mouseNotOver();
+  }
+}
+void mousePressed() {                                                //function carried out in response to mouse click
+  int event;
+  for (int i = 0; i<widgetList.size(); i++) {
+    Widget aWidget = (Widget) widgetList.get(i);
+    event = aWidget.getEvent(mouseX, mouseY);
+    switch(event) {
+    case EVENT_BUTTON1:
+      println("button 1!"); 
+      currentScreen = screenQuery2;
+      break;
+    case EVENT_BUTTON2:
+      println("button 2!");
+      currentScreen = screenQuery1;
+      break;
+    case EVENT_BUTTON3:                                //later on will do whatever function the widget pressed says it does. For now just showing they pressed.
+      println("button 3!");
+      break;
+    case EVENT_BUTTON4:
+      println("button 4!");
+      break;
+    case EVENT_BUTTON5:
+      println("button 5!");
+      break;
+    }
+  }
+}
+
+
+
+void addWidget(Widget theWidget, ArrayList<Widget>widgetList) 
+{
+  widgetList.add(theWidget);
+}

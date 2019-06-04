@@ -1,0 +1,70 @@
+class Reviewer {
+  
+  String userID;
+  String userName;
+  int numberOfReviews;
+  ArrayList<ReviewObject> testSet = new ArrayList<ReviewObject>();
+  
+  Reviewer(String userID, String userName, ArrayList<ReviewObject> reviewsList){
+    this.userID = userID;
+    this.userName = userName;
+  }
+  
+  void getReviews(String userID){
+    for(int index = 0; index<reviewsList.size(); index++){
+      ReviewObject test = reviewsList.get(index);
+      if(test.userId == userID){
+        testSet.add(test);
+      }
+    }
+  }
+  
+  int countReviews(String userID){
+    int counter = 0;
+    for(int index = 0; index<reviewsList.size(); index++){
+      ReviewObject testReview = reviewsList.get(index);
+      if(testReview.userId == userID){
+        counter++;
+      }
+    }
+    return counter;
+  }
+  void draw(){
+    int reviewCount = countReviews(userID);
+    fill(255);
+    ReviewObject userReview =(ReviewObject)reviewsList.get(0);
+    String text = "";
+    String[] textString =  userReview.text.split(" "); 
+    int reviewXpos = 25; 
+    int reviewYpos = 400;
+    for (int j=0; j<textString.length; j++)                                    //prints each word one by one, moving the xpos by number of charachters in the word + number.
+    {
+      text = textString[j];
+      char[] textChar = text.toCharArray();
+      int wordLength = textChar.length*15;                                      //moving forward xpos after each word by word length *15 so enough space.
+
+      String lastCharachter = str(textChar[textChar.length-1]);
+      if (lastCharachter.equals("."))
+      {
+        wordLength = textChar.length*200;                                         //after full stop indents the text.
+      }
+      else if (lastCharachter.equals("!"))
+      {
+         wordLength = textChar.length*200;  
+      }
+      if (text.equals("a"))                                                        //"a" is small so need to have more space between next word
+      {
+        wordLength = wordLength +5;
+      }
+      text(text, reviewXpos, reviewYpos);
+      reviewXpos = reviewXpos+wordLength;
+      if (reviewXpos+wordLength>500)                                                //when gets to limit of xpos and can't go further across screen xpos resets and ypos moves down a line to indent.
+      {
+        reviewYpos = reviewYpos+30;
+        reviewXpos = 25;
+      }
+    }   
+    text("The user name:" + userName, 0, 50);
+    text("Number of reviews  " + reviewCount, 0, 100);
+  }
+}

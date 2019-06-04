@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+import static java.util.Arrays.binarySearch;
+
+public class WordLinks {
+
+	public static void main(String[] args) {
+		String allWords = new String("words.txt");
+		String[] dictionary;
+		dictionary = readDictionary(allWords);
+		boolean finished = false;
+		do {
+			System.out.println("Enter a comma (,) separated list of words (or an empty list to quit)->");
+			Scanner inputScanner = new Scanner(System.in);
+			String wordInput = inputScanner.hasNextLine() ? inputScanner.nextLine() : "";
+			if(!wordInput.isEmpty()) {
+				String[] wordLink = readWordList(wordInput);
+				if(isWordChain(wordLink, dictionary)) {
+					System.out.println("Valid chain of words from Lewis Carroll's word-links game.");
+				}
+				else{
+					System.out.println("Not a valid chain of words from Lewis Carroll's word-links game.");
+				}
+			
+			}
+			else if(wordInput.isEmpty()) {
+				finished = true;
+				System.out.println("finished");
+			}
+			else {
+				System.out.println("Invalid input. Try again.");
+			}
+		}while(!finished);
+		
+
+	}
+
+	public static String readDictionary(String[] dictionary) {
+		return dictionary.readAllLines();
+	}
+	
+	public static String readWordList() {
+		
+	}
+	
+	public static boolean isUniqueList() {
+		
+	}
+	
+	public static boolean isEnglishWord() {
+		
+	}
+	
+	public static boolean isDifferentByOne() {
+		
+	}
+	
+	public static boolean isWordChain() {
+		
+	}
+}

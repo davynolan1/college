@@ -1,0 +1,54 @@
+package ConnectFour;
+
+public class Connect4Grid2DArray implements Connect4Grid{
+	public static final int BOARD_WIDTH = 7; 
+	public static final int BOARD_HEIGHT = 6; 
+	
+	
+	
+	public void emptyGrid() {
+		
+	}
+	
+	public boolean isValidColumn(int column) {
+		if(!isColumnFull(column)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isColumnFull(int column) {
+		int count = 0;
+		int arrayCol = column - 1;
+		for(int i=0; i<BOARD_HEIGHT; i++ ) {
+			char tmp = board[arrayCol][i];
+			if(tmp == 'X' || tmp == 'O') {
+				count++;
+			}
+		}
+		if(count == 6) {
+			return true;
+		}
+		return false;
+	}
+	public void dropPiece(ConnectPlayer player, int column) {
+		if(isValidColumn(column)) {
+			
+		}
+	}
+	public boolean didLastPieceConnect4() {
+		return
+	}
+	public boolean isGridFull() {
+		return
+	}
+
+	
+	public String toString() {
+		return "Connect4Grid [didLastPieceConnect4()=" + didLastPieceConnect4() + ", isGridFull()=" + isGridFull()
+				+ "]";
+	}
+	
+	
+	
+	
+}

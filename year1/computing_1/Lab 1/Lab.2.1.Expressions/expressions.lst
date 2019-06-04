@@ -1,0 +1,84 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             Expressions, CODE, READONLY
+    2 00000000                 IMPORT           main
+    3 00000000                 EXPORT           start
+    4 00000000         
+    5 00000000         start                                ;(a)
+    6 00000000 E3A01005        LDR              R1, =5      ; x = 5
+    7 00000004 E3A02006        LDR              R2, =6      ; y = 6
+    8 00000008 E3A03003        LDR              R3, =3
+    9 0000000C E3A05005        LDR              R5, =5
+   10 00000010         
+   11 00000010 E0000191        MUL              R0, R1, R1  ; R0 = x squared
+   12 00000014 E0000093        MUL              R0, R3, R0  ; RO = 3(x squared)
+                                                            
+   13 00000018         
+   14 00000018 E0040591        MUL              R4, R1, R5  ; R4 = 5x
+   15 0000001C         
+   16 0000001C E0840000        ADD              R0, R4, R0  ; R0 = 3(x squared)
+                                                            +5x
+   17 00000020         
+   18 00000020         
+   19 00000020 EAFFFFFE 
+                       stop    B                stop
+   20 00000024         
+   21 00000024                 END
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\e
+xpressions.d -o.\expressions.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\CMSIS
+\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefine="
+__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="NO_CLO
+CK_SETUP SETA 1" --predefine="NO_EMC_SETUP SETA 1" --predefine="RAM_INTVEC SETA
+ 1" --predefine="RAM_MODE SETA 1" --predefine="REMAP SETA 1" --list=.\expressio
+ns.lst Expressions.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Expressions 00000000
+
+Symbol: Expressions
+   Definitions
+      At line 1 in file Expressions.s
+   Uses
+      None
+Comment: Expressions unused
+start 00000000
+
+Symbol: start
+   Definitions
+      At line 5 in file Expressions.s
+   Uses
+      At line 3 in file Expressions.s
+Comment: start used once
+stop 00000020
+
+Symbol: stop
+   Definitions
+      At line 19 in file Expressions.s
+   Uses
+      At line 19 in file Expressions.s
+Comment: stop used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 2 in file Expressions.s
+   Uses
+      None
+Comment: main unused
+1 symbol
+342 symbols in table

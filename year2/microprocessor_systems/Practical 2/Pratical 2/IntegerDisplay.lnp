@@ -1,0 +1,5 @@
+--cpu ARM7TDMI
+".\integerdisplay.o"
+".\EA-LPC2138-EDU-ASM.lib"
+--library_type=microlib --strict --scatter ".\IntegerDisplay.sct"
+--summary_stderr --info summarysizes -o .\IntegerDisplay.axf

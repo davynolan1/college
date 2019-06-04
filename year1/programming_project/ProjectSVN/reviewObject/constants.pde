@@ -1,0 +1,36 @@
+final int SCREEN_HEIGHT = 1000;
+final int SCREEN_WIDTH = 1000;
+final int STAR_WIDTH=50;
+final int STAR_HEIGHT=50;
+final int LOGO_WIDTH=200;
+final int LOGO_HEIGHT=375;
+final int EVENT_NULL=0;
+final int EVENT_BUTTON1=1;
+final int EVENT_BUTTON2=2;
+final int EVENT_BUTTON3 = 3;
+final int EVENT_BUTTON4 = 4;
+final int EVENT_BUTTON5 = 5;
+final int EVENT_BUTTON6 = 6;
+final int EVENT_BUTTON7 = 7;
+final int EVENT_BUTTON8 = 9;
+final int USER_BUTTON = 8;
+final int USER_NEXT = 10;
+final int USER_PREV = 11;
+final int ERROR_MESSAGE = 12;   //dont need probably? laura 
+final int SEARCH_BY_USER_EVENT = 13;
+final int SEARCH_BY_BUSINESS_EVENT = 14;
+
+
+final int EVENT_BUTTON15= 15;
+final int EVENT_BUTTON16= 16;
+final int EVENT_BUTTON17 = 17;
+
+
+final int SEARCH_BUTTON = 100;
+
+//titles e.g. "trending now", Business's name on their page, users name if looking at particular user specifically, will alll have recangle behind title with dimensions. Can change if
+//we want.
+final int TITLE_WIDTH = 300;
+final int TITLE_HEIGHT = 100;
+
+final int BAR_HEIGHT = 40;

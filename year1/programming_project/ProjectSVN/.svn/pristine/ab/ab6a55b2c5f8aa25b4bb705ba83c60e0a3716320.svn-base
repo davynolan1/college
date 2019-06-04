@@ -1,0 +1,105 @@
+class BusinessObject {
+  int numOfStars;
+  String businessId;
+  String businessName;
+  ArrayList businessReviewList=new ArrayList<ReviewObject>();
+  int avgStars;
+  PImage star = loadImage("starImage.png");
+  PFont font;
+  float barWidth1;
+  float barWidth2;
+  float barWidth3;
+  float barWidth4;
+  float barWidth5;
+
+
+  BusinessObject(String businessId, ArrayList<ReviewObject> reviews, PFont font) {
+    int index = 1;
+    boolean nameFound = false;
+    while (!nameFound) {
+      ReviewObject tmpReview = (ReviewObject)reviews.get(index);
+      if (tmpReview.businessId.equals(businessId)) {
+        this.businessName=tmpReview.businessName;
+        nameFound=true;
+      }
+      else{
+      index++;
+      }
+    }
+    for (int count=0; count<reviews.size(); count++) {
+      ReviewObject tmpReview = (ReviewObject)reviews.get(count);
+      if (tmpReview.businessName.equals(businessName)) {
+        businessReviewList.add(tmpReview);                  //all reviews of this particular business will be stored in businessReviewList
+        this.numOfStars+=tmpReview.numOfStars;
+      }
+    }
+
+    this.font=font;
+    textFont(font);
+    avgStars = numOfStars/businessReviewList.size();
+  }
+
+  void draw() {
+    text(businessName, 100, 100);
+
+    star.resize(STAR_WIDTH, STAR_HEIGHT);                  //average stars printed to screen
+    int starXpos = 50;
+    for (int i=0; i < avgStars; i++)
+    {
+      image(star, starXpos, 150);
+      starXpos+=55;
+    }
+
+    //int starStart=1900;
+    //for (int index=1; index<=avgStars; index++) {          //does not work in practise yet but leave in.
+    //  image(star, starStart, 1900);
+    //  delay(2000);
+    // starStart+=STAR_WIDTH;
+    //}
+
+    barWidth1 = 0;
+    barWidth2 = 0;
+    barWidth3 = 0;
+    barWidth4 = 0;
+    barWidth5 = 0;
+
+    int numStart = 440;
+    noStroke();
+    rect(600, 400, 5, 200);                      //axis for rectangle
+    rect(600, 600, 400, 5);
+    for (int j=5; j>=1; j--) {                      //labelling axis with nunbers
+      text(int(j), 570, numStart); 
+      numStart += 40;
+    }
+
+  
+    for (int index=0; index<businessReviewList.size(); index++) {
+      ReviewObject temp = (ReviewObject)businessReviewList.get(index);
+      if (temp.numOfStars == 1) {
+        barWidth1 += 2.5;
+        fill(255,0,0);
+        rect(605, 400+(BAR_HEIGHT*4), barWidth1, BAR_HEIGHT);
+      }
+      if (temp.numOfStars == 2) {
+        barWidth2 += 2.5;
+        fill(255, 128, 0);
+        rect(605, 400+(BAR_HEIGHT*3), barWidth2, BAR_HEIGHT);
+      }
+      if (temp.numOfStars == 3) {
+        barWidth3 += 2.5;
+        fill(255, 255, 0);
+        rect(605, 400+(BAR_HEIGHT*2), barWidth3, BAR_HEIGHT);
+      }
+      if (temp.numOfStars == 4) {
+        barWidth4 += 2.5;
+        fill(29, 183, 137);
+        rect(605, 400+BAR_HEIGHT, barWidth4, BAR_HEIGHT);
+      }
+      if (temp.numOfStars == 5) {
+        barWidth5 += 2.5;
+        fill(20, 106, 29);
+        rect(605, 400, barWidth5, BAR_HEIGHT);
+      }
+    }
+  }
+}

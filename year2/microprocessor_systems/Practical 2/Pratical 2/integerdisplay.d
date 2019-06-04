@@ -1,0 +1,1 @@
+.\integerdisplay.o: IntegerDisplay.s

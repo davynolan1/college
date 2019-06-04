@@ -1,0 +1,230 @@
+class Reviewer {
+  PImage funEmoji = loadImage("funny.png");
+  PImage useEmoji = loadImage("useful.png");
+  PImage coolEmoji = loadImage("cool.png");
+  String userID;
+  String userName;
+  int totalReviews;
+  ArrayList<ReviewObject>userReviewSet = new ArrayList<ReviewObject>();
+  float scrollPos;
+  float barWidth1;
+  float barWidth2;
+  float barWidth3;
+  float usefulAngle;
+  float coolAngle;
+  float funnyAngle;
+  int barY; 
+  float totU;
+  float totF;
+  float totC;
+  Reviewer(String userId, String userName, ArrayList<ReviewObject> reviews) {
+    int count = 0;
+    boolean userNameFound = false;
+    while (!userNameFound) {
+      ReviewObject testReview = (ReviewObject) reviews.get(count);
+      if (testReview.userId.equals(userId)) {
+        this.userName = testReview.userName;
+        userNameFound = true;
+      } else {
+        count++;
+      }
+    }
+    for (int index = 0; index<reviews.size(); index++) {
+      ReviewObject temp = (ReviewObject)reviews.get(index);
+      if (temp.userName.equals(this.userName)) {
+        userReviewSet.add(temp);
+        println(index);
+        println(temp.userName);
+      }
+    }
+  }
+
+  void draw() {
+    scrollPos = vs1.getPos();
+    vs1.update();
+    vs1.display();
+    fill(0);
+    //text(userName, 100, 100);
+    if (reviewPrintIndex < userReviewSet.size()-1) {
+
+      ReviewObject userReview =(ReviewObject)reviewsList.get(reviewPrintIndex);      //test single instance ... WHEN next widget is pressed it should go to next review.
+
+      //text(userReview.date, 250, 300);
+
+      String text = "";
+      String[] textString =  userReview.text.split(" ");                          //make a string array of thr words in review text
+      int reviewXpos = 400; 
+      int reviewYpos = 350;
+      stroke(0);
+      fill(255,149,149);
+      rect(380, 160+scrollPos, 610, 260);      //Drawing boxes around text
+      fill(180, 248, 255);
+      rect(380, 320+scrollPos, 610, 1200);
+      noStroke();
+      fill(0);
+      for (int j=0; j<textString.length; j++)                                    //prints each word one by one, moving the xpos by number of charachters in the word + number.
+      {
+        text = textString[j];
+        char[] textChar = text.toCharArray();
+        int wordLength = textChar.length*15;                                      //moving forward xpos after each word by word length *15 so enough space.
+        if (textChar.length>0) {
+
+          String lastCharachter = str(textChar[textChar.length-1]);
+          if (lastCharachter.equals("."))
+          {
+            wordLength = textChar.length*200;                                         //after full stop indents the text.
+          } else if (lastCharachter.equals("!"))
+          {
+            wordLength = textChar.length*200;
+          }
+          if (text.equals("a"))                                                        //"a" is small so need to have more space between next word
+          {
+            wordLength = wordLength +5;
+          }
+        }
+        text(text, reviewXpos, reviewYpos+scrollPos);
+        reviewXpos = reviewXpos+wordLength;
+        if (reviewXpos+wordLength>875)                                                //when gets to limit of xpos and can't go further across screen xpos resets and ypos moves down a line to indent.
+        {
+          reviewYpos = reviewYpos+30;
+          reviewXpos = 400;
+        }
+      }
+      text("Page "+(reviewPrintIndex+1)+ " of "+(userReviewSet.size()), 50, 930+scrollPos);
+      fill(222, 113, 240);
+      stroke(0);
+      rect(450, 65+scrollPos, 150, 50);
+      fill(0);
+      text(userName, 480, 100+scrollPos);
+      String tempBusName = userReviewSet.get(reviewPrintIndex).businessName;
+      text("Business: "+tempBusName.substring(3, tempBusName.length()-3), 400, 200+scrollPos);
+      String tempDate = userReviewSet.get(reviewPrintIndex+1).date;
+      text("Date: "+tempDate, 400, 250+scrollPos);
+
+      text("REACTIONS", 140, 500+scrollPos);
+      int tempUseful = userReviewSet.get(reviewPrintIndex+1).useful;
+      //text("Useful: "+tempUseful, 75, 400+scrollPos);
+      int tempFunny = userReviewSet.get(reviewPrintIndex+1).funny;
+      //text("Funny: "+tempFunny, 75, 450+scrollPos);
+      int tempCool = userReviewSet.get(reviewPrintIndex+1).cool;
+      //text("Cool: "+tempCool, 75, 500+scrollPos);
+      int numOfStars = userReviewSet.get(reviewPrintIndex+1).numOfStars;
+      text("Stars given: " + numOfStars, 400, 300+scrollPos );
+
+      totU = 0;
+      totF = 0;
+      totC = 0;
+      for (int i = 0; i < userReviewSet.size(); i++) {
+        ReviewObject tempUReview = (ReviewObject) userReviewSet.get(i);
+        totU += tempUReview.useful;
+        totF += tempUReview.funny;
+        totC += tempUReview.cool;
+      }
+      float total = totU+totF+totC;
+
+      if (totU != 0) {      
+        usefulAngle = (totU/total)*(360);
+      } 
+      if (totF!= 0) {
+        funnyAngle = (totF/total)*(360);
+      }
+      if (totC != 0) {
+        coolAngle = (totC/total)*(360);
+      }
+      
+      //Configuring angles for the pie chart
+
+      float angles[] = {usefulAngle, funnyAngle, coolAngle};
+      pieChart(200, angles);
+      println("totU" + totU);
+      println("totF" + totF);
+      println("totC" + totC);
+      fill(0);
+      text("Useful ->   " , 25, 300+scrollPos);
+      text("Funny ->    " , 25, 340+scrollPos);
+      text("Cool ->    " , 25, 380+scrollPos);
+      fill(32,26,255);
+      rect(115, 280+scrollPos, 20, 20);
+      fill(0, 222, 16);
+      rect(115, 320+scrollPos, 20, 20);
+      fill(252, 245, 3);
+      rect(115, 360+scrollPos, 20, 20);
+      
+
+      //drawing bar chart
+      barWidth1 = 0;
+      barWidth2 = 0;
+      barWidth3 = 0;
+      int numStart = 440;
+      noStroke();
+      fill(0);
+      rect(75, 550+scrollPos, 5, 200);                      //axis for rectangle
+      rect(75, 750+scrollPos, 250, 5);
+      text("Useful:", 88, 780+scrollPos);
+      text("Funny:", 175, 780+scrollPos);
+      text("Cool:", 260, 780+scrollPos);
+      text(tempUseful, 110, 805+scrollPos);
+      text(tempFunny, 197, 805+scrollPos);
+      text(tempCool, 275, 805+scrollPos);
+      
+       if(tempUseful > 10){
+         tempUseful = 10;
+      }
+      if(tempFunny > 10){
+         tempFunny = 10;
+      }
+      if(tempCool > 10){
+         tempCool = 10;
+      }
+
+
+
+
+
+
+      barWidth1 = -20*tempUseful;
+      if (barWidth1 > 200) {
+        barWidth1 = 200;
+      }
+      fill(32,26,255);
+      rect(80, 750+scrollPos, 75, barWidth1);
+
+      if (barWidth2 > 200) {
+        barWidth2 = 200;
+      }
+      barWidth2 = -20*tempFunny;
+      fill(0, 222, 16);
+      rect(163, 750+scrollPos, 75, barWidth2);
+
+      if (barWidth3 > 200) {
+        barWidth3 = 200;
+      }
+      barWidth3 =-20*tempCool;
+      fill(252, 245, 3);
+      rect(246, 750+scrollPos, 75, barWidth3);
+      
+      useEmoji.resize(55,45);
+      image(useEmoji, 90, 700+barWidth1+scrollPos);
+      funEmoji.resize(45,45);
+      image(funEmoji, 178, 700+barWidth2+scrollPos);
+      coolEmoji.resize(45,45);
+      image(coolEmoji, 261, 700+barWidth3+scrollPos);
+    }
+  }
+  void pieChart(float diameter, float[] data) {
+    color[] pieColours = {color(32,26,255),  color(252, 245, 3), color(0, 222, 16)};
+    float lastAngle = 0;
+    for (int i = 0; i < data.length; i++) {
+      float gray = map(i, 0, data.length, 0, 255);
+      fill(pieColours[i]);
+      arc(150, 140+scrollPos, diameter, diameter, lastAngle, lastAngle+radians(data[i]));
+      lastAngle += radians(data[i]);
+    }
+  }
+  public String getUserName(){
+    return this.userName;
+  }
+  public ArrayList getUserReviewSet(){
+    return this.userReviewSet;
+  }
+}

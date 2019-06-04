@@ -1,0 +1,4 @@
+﻿  postfixCalc.c
+c:\users\davy\documents\college documents\2nd year cs\systems programming 1\newcalculator\newcalculator\postfixcalc.c(91): warning C4047: 'return': 'char' differs in levels of indirection from 'void *'
+c:\users\davy\documents\college documents\2nd year cs\systems programming 1\newcalculator\newcalculator\postfixcalc.c(218): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+  NewCalculator.vcxproj -> C:\Users\Davy\Documents\COLLEGE DOCUMENTS\2nd Year CS\Systems Programming 1\NewCalculator\Debug\NewCalculator.exe

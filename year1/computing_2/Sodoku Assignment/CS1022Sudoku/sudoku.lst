@@ -1,0 +1,1454 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             Sudoku, CODE, READONLY
+    2 00000000                 IMPORT           sendchar
+    3 00000000                 EXPORT           start
+    4 00000000         
+    5 00000000         start
+    6 00000000 E59F4558        LDR              R4, =testSolutionThree
+    7 00000004 E3A06009        LDR              R6, =9      ;row/col size
+    8 00000008 E3A01000        LDR              R1, =0      ;row
+    9 0000000C E3A02000        LDR              R2, =0      ;col
+   10 00000010 E59F854C        LDR              R8, =rowSumArray
+   11 00000014 E59F954C        LDR              R9, =colSumArray
+   12 00000018 E59FA54C        LDR              R10, =boxSumArray
+   13 0000001C E3A0B000        LDR              R11, =0     ;rowSum = 0
+   14 00000020         
+   15 00000020         
+   16 00000020         
+   17 00000020         
+   18 00000020 EA000121        B                extraMile
+   19 00000024         endExtraMile
+   20 00000024 EB0000F4        BL               sudoku
+   21 00000028         
+   22 00000028         
+   23 00000028         ;finished
+   24 00000028         ;BL sudoku
+   25 00000028         ;
+   26 00000028         ; write tests for getSquare subroutine
+   27 00000028         ;
+   28 00000028         
+   29 00000028         ;
+   30 00000028         ; write tests for setSquare subroutine
+   31 00000028         ;
+   32 00000028         
+   33 00000028         ;
+   34 00000028         ; write tests for isValid subroutine
+   35 00000028         ;
+   36 00000028         
+   37 00000028         ;
+   38 00000028         ; write tests for other subroutines
+   39 00000028         ;
+   40 00000028         
+   41 00000028         ;
+   42 00000028         ; test sudoku subroutine
+   43 00000028         ;
+   44 00000028         
+   45 00000028         
+   46 00000028 EAFFFFFE 
+                       stop    B                stop
+   47 0000002C         
+   48 0000002C         
+   49 0000002C         
+   50 0000002C         ; getSquare subroutine
+   51 0000002C         getSquare
+   52 0000002C E0070691        MUL              R7, R1, R6  ;temp = row*rowsize
+                                                            
+   53 00000030 E0877002        ADD              R7, R7, R2  ;temp += col
+   54 00000034 E7D40007        LDRB             R0, [R4, R7] ;R0 = memory.byte[
+                                                            array base address 
+                                                            + temp]
+   55 00000038         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   56 00000038 E12FFF1E        BX               R14
+   57 0000003C         
+   58 0000003C         
+   59 0000003C         ; setSquare subroutine
+   60 0000003C         setSquare
+   61 0000003C EBFFFFFA        BL               getSquare
+   62 00000040 E3500000        CMP              R0, #0
+   63 00000044 1A000000        BNE              setfinished
+   64 00000048 E7C45007        STRB             R5, [R4, R7]
+   65 0000004C         setfinished
+   66 0000004C         
+   67 0000004C E12FFF1E        BX               R14
+   68 00000050         
+   69 00000050         
+   70 00000050         
+   71 00000050         ; isValid subroutine
+   72 00000050         isValid
+   73 00000050         rWhile
+   74 00000050 E1510006        CMP              R1, R6      ;   for(rowIndex = 
+                                                            0; rowIndex<9; rowI
+                                                            ndex++) 
+   75 00000054 AA00000B        BGE              endrWhile   ;{
+   76 00000058         rWhile2
+   77 00000058 E1520006        CMP              R2, R6      ;     for(colIndex 
+                                                            = 0; colIndex<9; co
+                                                            lIndex++)
+   78 0000005C AA000003        BGE              endrWhile2  ;{
+   79 00000060 EBFFFFF1        BL               getSquare   ;get value in squar
+                                                            e at index R1,R2
+   80 00000064 E08BB000        ADD              R11, R11, R0 ;rowSum += value i
+                                                            n current square
+   81 00000068 E2822001        ADD              R2, R2, #1  ;}
+   82 0000006C EAFFFFF9        B                rWhile2
+   83 00000070         endrWhile2
+   84 00000070 E5C8B000        STRB             R11, [R8]   ;memory.byte[rowSum
+                                                            Array] = rowSum
+   85 00000074 E2888001        ADD              R8, R8, #1  ;rowSumArray addres
+                                                            s++
+   86 00000078 E3A0B000        MOV              R11, #0     ;rowSum = 0 (reset)
+                                                            
+   87 0000007C E2811001        ADD              R1, R1, #1  ;}
+   88 00000080 E3A02000        MOV              R2, #0
+   89 00000084 EAFFFFF1        B                rWhile
+   90 00000088         endrWhile
+   91 00000088         
+   92 00000088 E3A01000        MOV              R1, #0      ;reset rowIndex
+   93 0000008C E3A02000        MOV              R2, #0      ;reset colIndex
+   94 00000090         
+   95 00000090         cWhile
+   96 00000090 E1510006        CMP              R1, R6      ;   for(rowIndex = 
+                                                            0; rowIndex < 9; ro
+                                                            wIndex++)
+   97 00000094 AA00000D        BGE              endcWhile   ;{
+   98 00000098         cWhile2
+   99 00000098 E1520006        CMP              R2, R6      ;     for(colIndex 
+                                                            = 0; colIndex < 9; 
+                                                            colIndex++)
+  100 0000009C AA000005        BGE              endcWhile2  ;{
+  101 000000A0 E0070692        MUL              R7, R2, R6
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+  102 000000A4 E0877001        ADD              R7, R7, R1
+  103 000000A8 E7D40007        LDRB             R0, [R4, R7] ;get value in squa
+                                                            re at index R2,R1
+  104 000000AC E08BB000        ADD              R11, R11, R0 ;colSum += value i
+                                                            n current square
+  105 000000B0 E2822001        ADD              R2, R2, #1  ;}
+  106 000000B4 EAFFFFF7        B                cWhile2
+  107 000000B8         endcWhile2
+  108 000000B8 E5C9B000        STRB             R11, [R9]   ;memory.byte[colSum
+                                                            Array] = colSum
+  109 000000BC E2899001        ADD              R9, R9, #1  ;colSumArray addres
+                                                            s++
+  110 000000C0 E3A0B000        MOV              R11, #0     ;colSum = 0 (reset)
+                                                            
+  111 000000C4 E2811001        ADD              R1, R1, #1  ;}
+  112 000000C8 E3A02000        MOV              R2, #0
+  113 000000CC EAFFFFEF        B                cWhile
+  114 000000D0         endcWhile
+  115 000000D0         
+  116 000000D0 E3A01000        MOV              R1, #0      ;reset rowIndex 
+  117 000000D4 E3A02000        MOV              R2, #0      ;reset colIndex
+  118 000000D8         
+  119 000000D8         bWhile
+  120 000000D8 E1510006        CMP              R1, R6      ;   for(rowIndex(i)
+                                                             = 0; rowIndex(i) <
+                                                             9; rowIndex(i)++)
+  121 000000DC AA00005E        BGE              endbWhile   ;{
+  122 000000E0         bWhile2
+  123 000000E0 E1520006        CMP              R2, R6      ;     for(colIndex(
+                                                            j) = 0;colIndex(j) 
+                                                            < 9; colIndex(j)++)
+                                                            
+  124 000000E4 AA000059        BGE              endbWhile2  ; {
+  125 000000E8         if1
+  126 000000E8 E3510002        CMP              R1, #2      ;if(i<=2&&j<=2)
+  127 000000EC 8A000005        BHI              if2         ;{
+  128 000000F0 E3520002        CMP              R2, #2      ;
+  129 000000F4 8A000003        BHI              if2         ;
+  130 000000F8 EBFFFFCB        BL               getSquare   ;get value in squar
+                                                            e at index R1,R2
+  131 000000FC E5DA5000        LDRB             R5, [R10]   ;temp = mem.byte[bo
+                                                            xSumArray]
+  132 00000100 E0800005        ADD              R0, R0, R5  ;temp2 += temp
+  133 00000104 E5CA0000        STRB             R0, [R10]   ;mem.byte[boxSumArr
+                                                            ay] = temp2
+  134 00000108         ;}
+  135 00000108         if2
+  136 00000108 E3510002        CMP              R1, #2
+  137 0000010C 8A000007        BHI              if3
+  138 00000110 E3520003        CMP              R2, #3
+  139 00000114 3A000005        BLO              if3
+  140 00000118 E3520005        CMP              R2, #5
+  141 0000011C 8A000003        BHI              if3
+  142 00000120 EBFFFFC1        BL               getSquare
+  143 00000124 E5DA5001        LDRB             R5, [R10, #1]
+  144 00000128 E0800005        ADD              R0, R0, R5
+  145 0000012C E5CA0001        STRB             R0, [R10, #1]
+  146 00000130         
+  147 00000130         if3
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  148 00000130 E3510002        CMP              R1, #2
+  149 00000134 8A000007        BHI              if4
+  150 00000138 E3520006        CMP              R2, #6
+  151 0000013C 3A000005        BLO              if4
+  152 00000140 E3520008        CMP              R2, #8
+  153 00000144 8A000003        BHI              if4
+  154 00000148 EBFFFFB7        BL               getSquare
+  155 0000014C E5DA5002        LDRB             R5, [R10, #2]
+  156 00000150 E0800005        ADD              R0, R0, R5
+  157 00000154 E5CA0002        STRB             R0, [R10, #2]
+  158 00000158         
+  159 00000158         if4
+  160 00000158 E3510003        CMP              R1, #3
+  161 0000015C 3A000007        BLO              if5
+  162 00000160 E3510005        CMP              R1, #5
+  163 00000164 8A000005        BHI              if5
+  164 00000168 E3520002        CMP              R2, #2
+  165 0000016C 8A000003        BHI              if5
+  166 00000170 EBFFFFAD        BL               getSquare
+  167 00000174 E5DA5003        LDRB             R5, [R10, #3]
+  168 00000178 E0800005        ADD              R0, R0, R5
+  169 0000017C E5CA0003        STRB             R0, [R10, #3]
+  170 00000180         
+  171 00000180         if5
+  172 00000180 E3510003        CMP              R1, #3
+  173 00000184 3A000009        BLO              if6
+  174 00000188 E3510005        CMP              R1, #5
+  175 0000018C 8A000007        BHI              if6
+  176 00000190 E3520003        CMP              R2, #3
+  177 00000194 3A000005        BLO              if6
+  178 00000198 E3520005        CMP              R2, #5
+  179 0000019C 8A000003        BHI              if6
+  180 000001A0 EBFFFFA1        BL               getSquare
+  181 000001A4 E5DA5004        LDRB             R5, [R10, #4]
+  182 000001A8 E0800005        ADD              R0, R0, R5
+  183 000001AC E5CA0004        STRB             R0, [R10, #4]
+  184 000001B0         
+  185 000001B0         if6
+  186 000001B0 E3510003        CMP              R1, #3
+  187 000001B4 3A000009        BLO              if7
+  188 000001B8 E3510005        CMP              R1, #5
+  189 000001BC 8A000007        BHI              if7
+  190 000001C0 E3520006        CMP              R2, #6
+  191 000001C4 3A000005        BLO              if7
+  192 000001C8 E3520008        CMP              R2, #8
+  193 000001CC 8A000003        BHI              if7
+  194 000001D0 EBFFFF95        BL               getSquare
+  195 000001D4 E5DA5005        LDRB             R5, [R10, #5]
+  196 000001D8 E0800005        ADD              R0, R0, R5
+  197 000001DC E5CA0005        STRB             R0, [R10, #5]
+  198 000001E0         
+  199 000001E0         if7
+  200 000001E0 E3510006        CMP              R1, #6
+  201 000001E4 3A000005        BLO              if8
+  202 000001E8 E3520002        CMP              R2, #2
+  203 000001EC 8A000003        BHI              if8
+  204 000001F0 EBFFFF8D        BL               getSquare
+  205 000001F4 E5DA5006        LDRB             R5, [R10, #6]
+  206 000001F8 E0800005        ADD              R0, R0, R5
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+  207 000001FC E5CA0006        STRB             R0, [R10, #6]
+  208 00000200         
+  209 00000200         if8
+  210 00000200 E3510006        CMP              R1, #6
+  211 00000204 3A000007        BLO              if9
+  212 00000208 E3520003        CMP              R2, #3
+  213 0000020C 3A000005        BLO              if9
+  214 00000210 E3520005        CMP              R2, #5
+  215 00000214 8A000003        BHI              if9
+  216 00000218 EBFFFF83        BL               getSquare
+  217 0000021C E5DA5007        LDRB             R5, [R10, #7]
+  218 00000220 E0800005        ADD              R0, R0, R5
+  219 00000224 E5CA0007        STRB             R0, [R10, #7]
+  220 00000228         
+  221 00000228         if9
+  222 00000228 E3510006        CMP              R1, #6
+  223 0000022C 3A000005        BLO              endif9
+  224 00000230 E3520006        CMP              R2, #6
+  225 00000234 3A000003        BLO              endif9
+  226 00000238 EBFFFF7B        BL               getSquare
+  227 0000023C E5DA5008        LDRB             R5, [R10, #8]
+  228 00000240 E0800005        ADD              R0, R0, R5
+  229 00000244 E5CA0008        STRB             R0, [R10, #8]
+  230 00000248         endif9
+  231 00000248 E2822001        ADD              R2, R2, #1
+  232 0000024C EAFFFFA3        B                bWhile2
+  233 00000250         endbWhile2
+  234 00000250 E2811001        ADD              R1, R1, #1
+  235 00000254 E3A02000        MOV              R2, #0
+  236 00000258 EAFFFF9E        B                bWhile
+  237 0000025C         endbWhile
+  238 0000025C         
+  239 0000025C         ;COMPARING ALL VALUES IN ROWS TO EACHOTHER TO SEE IF VAL
+                       ID
+  240 0000025C E3A00000        MOV              R0, #0      ;rowSq1
+  241 00000260 E3A01000        MOV              R1, #0      ;colSq1
+  242 00000264 E3A02000        MOV              R2, #0      ;rowSq2
+  243 00000268 E3A03000        MOV              R3, #0      ;colSq2
+  244 0000026C E3A0B009        LDR              R11, =9     ;NUMBER OF ROWS/COL
+                                                            S
+  245 00000270 E3A0C001        MOV              R12, #1     ;Boolean partially 
+                                                            correct = true
+  246 00000274         rPartlyWh
+  247 00000274         
+  248 00000274         
+  249 00000274 E0070B92        MUL              R7, R2, R11
+  250 00000278 E0877003        ADD              R7, R7, R3
+  251 0000027C E7D47007        LDRB             R7, [R4, R7]
+  252 00000280 E1A06007        MOV              R6, R7      ;get value in squar
+                                                            e2
+  253 00000284         
+  254 00000284 E3500009        CMP              R0, #9      ;while(rowSq1 < 9)
+  255 00000288 AA000018        BGE              erParWh     ;{
+  256 0000028C         rPartlyWh2
+  257 0000028C E3510009        CMP              R1, #9      ;while(colSq1 < 9)
+  258 00000290 AA00000D        BGE              erParWh2    ;{
+  259 00000294 E0070B90        MUL              R7, R0, R11
+  260 00000298 E0877001        ADD              R7, R7, R1
+  261 0000029C E7D47007        LDRB             R7, [R4, R7]
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  262 000002A0 E1A05007        MOV              R5, R7      ;get value in squar
+                                                            e1
+  263 000002A4 E1500002        CMP              R0, R2      ;if(rowSq1 == rowSq
+                                                            2)
+  264 000002A8 1A000003        BNE              continue    ;{
+  265 000002AC E1510003        CMP              R1, R3      ;    if(colSq1 == c
+                                                            olSq2)
+  266 000002B0 1A000001        BNE              continue    ;    {   
+  267 000002B4 E2811001        ADD              R1, R1, #1  ;    colSq1++
+  268 000002B8 EAFFFFED        B                rPartlyWh   ;    }
+  269 000002BC         continue                             ;}
+  270 000002BC E1550006        CMP              R5, R6      ;if(valueSq1 != val
+                                                            ueSq2)
+  271 000002C0 0A00004A        BEQ              wrong       ;{ 
+  272 000002C4 E2811001        ADD              R1, R1, #1  ;colSq1++
+  273 000002C8 EAFFFFEF        B                rPartlyWh2  ;}
+  274 000002CC         erParWh2                             ;}
+  275 000002CC E2833001        ADD              R3, R3, #1  ;colSq2++
+  276 000002D0 E3A01000        MOV              R1, #0      ;colSq1 = 0
+  277 000002D4 E3530009        CMP              R3, #9      ;if(colSq2 == 9)
+  278 000002D8 1A000003        BNE              continue2   ;{
+  279 000002DC E2822001        ADD              R2, R2, #1  ;rowSq2++
+  280 000002E0 E3A03000        MOV              R3, #0      ;colSq2 = 0
+  281 000002E4 E2800001        ADD              R0, R0, #1  ;rowSq1++
+  282 000002E8 E3A01000        MOV              R1, #0      ;colSq1 = 0
+  283 000002EC         continue2                            ;}
+  284 000002EC         
+  285 000002EC EAFFFFE0        B                rPartlyWh
+  286 000002F0         erParWh
+  287 000002F0         
+  288 000002F0         ;COMPARING ALL VALUES IN COLUMNS TO SEE IF VALID
+  289 000002F0 E3A00000        MOV              R0, #0      ;rowSq1
+  290 000002F4 E3A01000        MOV              R1, #0      ;colSq1
+  291 000002F8 E3A02000        MOV              R2, #0      ;rowSq2
+  292 000002FC E3A03000        MOV              R3, #0      ;colSq2
+  293 00000300 E3A0B009        LDR              R11, =9     ;NUMBER OF ROWS/COL
+                                                            S
+  294 00000304 E3A0C001        MOV              R12, #1
+  295 00000308         cPartlyWh
+  296 00000308         
+  297 00000308         
+  298 00000308 E0070B93        MUL              R7, R3, R11
+  299 0000030C E0877002        ADD              R7, R7, R2
+  300 00000310 E7D47007        LDRB             R7, [R4, R7]
+  301 00000314 E1A06007        MOV              R6, R7      ;get value in squar
+                                                            e2
+  302 00000318         
+  303 00000318 E3500009        CMP              R0, #9      ;while(rowSq1 < 9)
+  304 0000031C AA00001F        BGE              ecParWh     ;{
+  305 00000320         cPartlyWh2
+  306 00000320 E3510009        CMP              R1, #9      ;while(colSq1 < 9)
+  307 00000324 AA000014        BGE              ecParWh2    ;{
+  308 00000328 E0070B91        MUL              R7, R1, R11
+  309 0000032C E0877000        ADD              R7, R7, R0
+  310 00000330 E7D47007        LDRB             R7, [R4, R7]
+  311 00000334 E1A05007        MOV              R5, R7      ;get value in squar
+                                                            e1
+  312 00000338 E1500002        CMP              R0, R2      ;if(rowSq1 == rowSq
+                                                            2)
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+  313 0000033C 1A000003        BNE              continue3   ;{
+  314 00000340 E1510003        CMP              R1, R3      ;    if(colSq1 == c
+                                                            olSq2)
+  315 00000344 1A000001        BNE              continue3   ;    {   
+  316 00000348 E2811001        ADD              R1, R1, #1  ;    colSq1++
+  317 0000034C EAFFFFED        B                cPartlyWh   ;    }
+  318 00000350         continue3                            ;}
+  319 00000350 E3550000        CMP              R5, #0
+  320 00000354 1A000004        BNE              checkifequal
+  321 00000358 E2811001        ADD              R1, R1, #1
+  322 0000035C EAFFFFEF        B                cPartlyWh2
+  323 00000360 E3560000        CMP              R6, #0
+  324 00000364 1A000000        BNE              checkifequal
+  325 00000368 E2833001        ADD              R3, R3, #1
+  326 0000036C         checkifequal
+  327 0000036C E1550006        CMP              R5, R6      ;if(valueSq1 != val
+                                                            ueSq2)
+  328 00000370 0A00001E        BEQ              wrong       ;{ 
+  329 00000374 E2811001        ADD              R1, R1, #1  ;colSq1++
+  330 00000378 EAFFFFE8        B                cPartlyWh2  ;}
+  331 0000037C         ecParWh2                             ;}
+  332 0000037C E2833001        ADD              R3, R3, #1  ;colSq2++
+  333 00000380 E3A01000        MOV              R1, #0      ;colSq1 = 0
+  334 00000384 E3530009        CMP              R3, #9      ;if(colSq2 == 9)
+  335 00000388 1A000003        BNE              continue4   ;{
+  336 0000038C E2822001        ADD              R2, R2, #1  ;rowSq2++
+  337 00000390 E3A03000        MOV              R3, #0      ;colSq2 = 0
+  338 00000394 E2800001        ADD              R0, R0, #1  ;rowSq1++
+  339 00000398 E3A01000        MOV              R1, #0      ;colSq1 = 0
+  340 0000039C         continue4                            ;}
+  341 0000039C         
+  342 0000039C EAFFFFD9        B                cPartlyWh
+  343 000003A0         ecParWh
+  344 000003A0         
+  345 000003A0         
+  346 000003A0         
+  347 000003A0         
+  348 000003A0         
+  349 000003A0 E59F81BC        LDR              R8, =rowSumArray
+  350 000003A4 E59F91BC        LDR              R9, =colSumArray ;RESETTING ARR
+                                                            AY POINTERS
+  351 000003A8         
+  352 000003A8 E3A0B001        LDR              R11, =1     ;boolean sudokuStat
+                                                            us = true
+  353 000003AC E3A01000        LDR              R1, =0      ;count
+  354 000003B0         vWhile
+  355 000003B0 E1510006        CMP              R1, R6      ;while(i < 9)
+  356 000003B4 AA00000C        BGE              endvWhile
+  357 000003B8         
+  358 000003B8 E7D85001        LDRB             R5, [R8, R1]
+  359 000003BC E355002D        CMP              R5, #45
+  360 000003C0 1A000005        BNE              false
+  361 000003C4 E7D95001        LDRB             R5, [R9, R1]
+  362 000003C8 E355002D        CMP              R5, #45
+  363 000003CC 1A000002        BNE              false
+  364 000003D0 E7DA5001        LDRB             R5, [R10, R1]
+  365 000003D4 E355002D        CMP              R5, #45
+  366 000003D8 0A000001        BEQ              endifst
+  367 000003DC         false
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+  368 000003DC E3A0B000        MOV              R11, #0
+  369 000003E0 EA000001        B                endvWhile
+  370 000003E4         endifst
+  371 000003E4 E2811001        ADD              R1, R1, #1
+  372 000003E8 EAFFFFF0        B                vWhile
+  373 000003EC         endvWhile
+  374 000003EC         ;BX R14
+  375 000003EC         
+  376 000003EC         
+  377 000003EC EA000001        B                finished
+  378 000003F0         
+  379 000003F0         
+  380 000003F0         wrong
+  381 000003F0 E3A0C000        MOV              R12, #0     ;boolean partial so
+                                                            lution correct = fa
+                                                            lse 
+  382 000003F4 E3A0B000        MOV              R11, #0     ;boolean sudoku sta
+                                                            tus = false
+  383 000003F8         
+  384 000003F8         finished
+  385 000003F8 E12FFF1E        BX               R14
+  386 000003FC         
+  387 000003FC         
+  388 000003FC         
+  389 000003FC         ; sudoku subroutine
+  390 000003FC         sudoku
+  391 000003FC         
+  392 000003FC E3A01000        MOV              R1, #0      ;row
+  393 00000400 E3A02000        MOV              R2, #0      ;col
+  394 00000404 E3A03000        MOV              R3, #0      ;boolean result = f
+                                                            alse
+  395 00000408         
+  396 00000408 E2822001        ADD              R2, R2, #1
+  397 0000040C E3520008        CMP              R2, #8
+  398 00000410 3A000001        BLO              ifend
+  399 00000414 E3A02000        MOV              R2, #0
+  400 00000418 E2822001        ADD              R2, R2, #1
+  401 0000041C         ifend
+  402 0000041C         
+  403 0000041C EBFFFF02        BL               getSquare
+  404 00000420 E3500000        CMP              R0, #0
+  405 00000424 0A000007        BEQ              ifelse
+  406 00000428         
+  407 00000428 E3510008        CMP              R1, #8
+  408 0000042C 1A000003        BNE              ififelse
+  409 00000430 E3520008        CMP              R2, #8
+  410 00000434 1A000001        BNE              ififelse
+  411 00000438 E3A03001        MOV              R3, #1
+  412 0000043C EA000019        B                endSudoku
+  413 00000440         ififelse
+  414 00000440 E2822001        ADD              R2, R2, #1
+  415 00000444 EA000017        B                endSudoku
+  416 00000448         
+  417 00000448         ifelse
+  418 00000448         tryWh
+  419 00000448 E3A05001        MOV              R5, #1      ;try = 1
+  420 0000044C E3550009        CMP              R5, #9
+  421 00000450 8A00000D        BHI              eTryWh
+  422 00000454 E3530000        CMP              R3, #0
+
+
+
+ARM Macro Assembler    Page 9 
+
+
+  423 00000458 1A00000B        BNE              eTryWh
+  424 0000045C EBFFFEF6        BL               setSquare
+  425 00000460 EBFFFEFA        BL               isValid
+  426 00000464 E35C0000        CMP              R12, #0
+  427 00000468 0AFFFFF6        BEQ              tryWh
+  428 0000046C E3510008        CMP              R1, #8
+  429 00000470 1A000003        BNE              ififelse2
+  430 00000474 E3520008        CMP              R2, #8
+  431 00000478 1A000001        BNE              ififelse2
+  432 0000047C E3A03001        MOV              R3, #1
+  433 00000480 EAFFFFF0        B                tryWh
+  434 00000484         ififelse2
+  435 00000484 E2811001        ADD              R1, R1, #1
+  436 00000488 EAFFFFEE        B                tryWh
+  437 0000048C         eTryWh
+  438 0000048C         
+  439 0000048C E3530000        CMP              R3, #0
+  440 00000490 1A000004        BNE              endSudoku
+  441 00000494 EBFFFEE4        BL               getSquare
+  442 00000498 E1A06005        MOV              R6, R5
+  443 0000049C E3A05000        MOV              R5, #0
+  444 000004A0 EBFFFEE5        BL               setSquare
+  445 000004A4 E1A05006        MOV              R5, R6
+  446 000004A8         endSudoku
+  447 000004A8         
+  448 000004A8 E12FFF1E        BX               R14
+  449 000004AC         
+  450 000004AC         extraMile
+  451 000004AC E3A06000        MOV              R6, #0
+  452 000004B0 E3A02000        MOV              R2, #0
+  453 000004B4 E3A03030        MOV              R3, #0x30
+  454 000004B8 E3A05009        MOV              R5, #9
+  455 000004BC         exWh
+  456 000004BC E3560009        CMP              R6, #9
+  457 000004C0 AA000025        BGE              endExWh
+  458 000004C4 E3560003        CMP              R6, #3
+  459 000004C8 0A000001        BEQ              printHLine  ;printing horizonta
+                                                            l grid lines
+  460 000004CC E3560006        CMP              R6, #6
+  461 000004D0 1A000008        BNE              exWh2
+  462 000004D4         printHLine
+  463 000004D4 E3A0A000        MOV              R10, #0
+  464 000004D8         loop
+  465 000004D8 E28AA001        ADD              R10, #1
+  466 000004DC E35A0014        CMP              R10, #20
+  467 000004E0 0A000002        BEQ              endLoop
+  468 000004E4 E3A0002D        MOV              R0, 0x2D
+  469 000004E8 EBFFFFFE        BL               sendchar
+  470 000004EC EAFFFFF9        B                loop
+  471 000004F0         endLoop
+  472 000004F0 E3A0000A        MOV              R0, #0x0A
+  473 000004F4 EBFFFFFE        BL               sendchar
+  474 000004F8         
+  475 000004F8         exWh2
+  476 000004F8 E3A00000        MOV              R0, #0
+  477 000004FC E3520009        CMP              R2, #9
+  478 00000500 AA000012        BGE              endExWh2
+  479 00000504 E0070596        MUL              R7, R6, R5
+  480 00000508 E0877002        ADD              R7, R7, R2
+
+
+
+ARM Macro Assembler    Page 10 
+
+
+  481 0000050C E7D40007        LDRB             R0, [R4, R7] ;getting value in 
+                                                            square 
+  482 00000510 E0800003        ADD              R0, R0, R3
+  483 00000514 EBFFFFFE        BL               sendchar    ;printing value in 
+                                                            square
+  484 00000518 E3A00020        MOV              R0, #0x20
+  485 0000051C EBFFFFFE        BL               sendchar    ;printing space bet
+                                                            ween values
+  486 00000520 E2822001        ADD              R2, R2, #1
+  487 00000524 E3520003        CMP              R2, #3
+  488 00000528 0A000001        BEQ              printVLine
+  489 0000052C E3520006        CMP              R2, #6
+  490 00000530 1A000001        BNE              goOn
+  491 00000534         printVLine
+  492 00000534 E3A0007C        MOV              R0, #0x7C
+  493 00000538 EBFFFFFE        BL               sendchar    ;printing vertical 
+                                                            grid lines
+  494 0000053C         goOn
+  495 0000053C E3520009        CMP              R2, #9
+  496 00000540 1AFFFFEC        BNE              exWh2
+  497 00000544 E3A0000A        MOV              R0, #0x0A   ;printing new line
+  498 00000548 EBFFFFFE        BL               sendchar
+  499 0000054C EAFFFFE9        B                exWh2
+  500 00000550         endExWh2
+  501 00000550 E2866001        ADD              R6, R6, #1
+  502 00000554 E3A02000        MOV              R2, #0
+  503 00000558 EAFFFFD7        B                exWh
+  504 0000055C         endExWh
+  505 0000055C         
+  506 0000055C         
+  507 0000055C EAFFFEB0        B                endExtraMile
+  508 00000560         
+  509 00000560         
+  510 00000560         
+  511 00000560         
+  512 00000560         
+  513 00000560 00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000         AREA             Grids, DATA, READWRITE
+  514 00000000         rowSumArray
+  515 00000000 00 00 00 
+              00 00 00 
+              00 00 00 
+              00               SPACE            10
+  516 0000000A         colSumArray
+  517 0000000A 00 00 00 
+              00 00 00 
+              00 00 00 
+              00               SPACE            10
+  518 00000014         boxSumArray
+  519 00000014 00 00 00 
+              00 00 00 
+              00 00 00 
+              00               SPACE            10
+  520 0000001E         gridOne
+  521 0000001E         ;0 1 2 3 4 5 6 7 8
+
+
+
+ARM Macro Assembler    Page 11 
+
+
+  522 0000001E 07 09 00 
+              00 00 00 
+              03 00 00         DCB              7,9,0,0,0,0,3,0,0 ;0
+  523 00000027 00 00 00 
+              00 00 06 
+              09 00 00         DCB              0,0,0,0,0,6,9,0,0 ;1
+  524 00000030 08 00 00 
+              00 03 00 
+              00 07 06         DCB              8,0,0,0,3,0,0,7,6 ;2
+  525 00000039 00 00 00 
+              00 00 05 
+              00 00 02         DCB              0,0,0,0,0,5,0,0,2 ;3
+  526 00000042 00 00 05 
+              04 01 08 
+              07 00 00         DCB              0,0,5,4,1,8,7,0,0 ;4
+  527 0000004B 04 00 00 
+              07 00 00 
+              00 00 00         DCB              4,0,0,7,0,0,0,0,0 ;5
+  528 00000054 06 01 00 
+              00 09 00 
+              00 00 08         DCB              6,1,0,0,9,0,0,0,8 ;6
+  529 0000005D 00 00 02 
+              03 00 00 
+              00 00 00         DCB              0,0,2,3,0,0,0,0,0 ;7
+  530 00000066 00 00 09 
+              00 00 00 
+              00 05 04         DCB              0,0,9,0,0,0,0,5,4 ;8
+  531 0000006F         
+  532 0000006F         testSolutionThree
+  533 0000006F 01 02 07 
+              09 08 06 
+              04 05 03         DCB              1,2,7,9,8,6,4,5,3
+  534 00000078 09 08 03 
+              05 04 07 
+              01 02 06         DCB              9,8,3,5,4,7,1,2,6
+  535 00000081 05 04 06 
+              02 01 03 
+              07 08 09         DCB              5,4,6,2,1,3,7,8,9
+  536 0000008A 07 05 08 
+              03 06 04 
+              02 09 01         DCB              7,5,8,3,6,4,2,9,1
+  537 00000093 02 03 04 
+              01 09 05 
+              08 06 07         DCB              2,3,4,1,9,5,8,6,7
+  538 0000009C 06 01 09 
+              08 07 02 
+              05 03 04         DCB              6,1,9,8,7,2,5,3,4
+  539 000000A5 08 06 05 
+              04 03 01 
+              09 07 02         DCB              8,6,5,4,3,1,9,7,2
+  540 000000AE 04 07 02 
+              06 05 09 
+              03 01 08         DCB              4,7,2,6,5,9,3,1,8
+  541 000000B7 03 09 01 
+              07 02 08 
+              06 04 05         DCB              3,9,1,7,2,8,6,4,5
+  542 000000C0         
+  543 000000C0         
+  544 000000C0         ;
+
+
+
+ARM Macro Assembler    Page 12 
+
+
+  545 000000C0         ; add other grids for test cases
+  546 000000C0         ;
+  547 000000C0         
+  548 000000C0                 END
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\s
+udoku.d -o.\sudoku.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\CMSIS\Include -
+IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefine="__MICROLIB
+ SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="NO_CLOCK_SETUP S
+ETA 1" --predefine="NO_EMC_SETUP SETA 1" --predefine="RAM_INTVEC SETA 1" --pred
+efine="RAM_MODE SETA 1" --predefine="REMAP SETA 1" --list=.\sudoku.lst Sudoku.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Sudoku 00000000
+
+Symbol: Sudoku
+   Definitions
+      At line 1 in file Sudoku.s
+   Uses
+      None
+Comment: Sudoku unused
+bWhile 000000D8
+
+Symbol: bWhile
+   Definitions
+      At line 119 in file Sudoku.s
+   Uses
+      At line 236 in file Sudoku.s
+Comment: bWhile used once
+bWhile2 000000E0
+
+Symbol: bWhile2
+   Definitions
+      At line 122 in file Sudoku.s
+   Uses
+      At line 232 in file Sudoku.s
+Comment: bWhile2 used once
+cPartlyWh 00000308
+
+Symbol: cPartlyWh
+   Definitions
+      At line 295 in file Sudoku.s
+   Uses
+      At line 317 in file Sudoku.s
+      At line 342 in file Sudoku.s
+
+cPartlyWh2 00000320
+
+Symbol: cPartlyWh2
+   Definitions
+      At line 305 in file Sudoku.s
+   Uses
+      At line 322 in file Sudoku.s
+      At line 330 in file Sudoku.s
+
+cWhile 00000090
+
+Symbol: cWhile
+   Definitions
+      At line 95 in file Sudoku.s
+   Uses
+      At line 113 in file Sudoku.s
+Comment: cWhile used once
+cWhile2 00000098
+
+Symbol: cWhile2
+   Definitions
+      At line 98 in file Sudoku.s
+   Uses
+      At line 106 in file Sudoku.s
+Comment: cWhile2 used once
+checkifequal 0000036C
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: checkifequal
+   Definitions
+      At line 326 in file Sudoku.s
+   Uses
+      At line 320 in file Sudoku.s
+      At line 324 in file Sudoku.s
+
+continue 000002BC
+
+Symbol: continue
+   Definitions
+      At line 269 in file Sudoku.s
+   Uses
+      At line 264 in file Sudoku.s
+      At line 266 in file Sudoku.s
+
+continue2 000002EC
+
+Symbol: continue2
+   Definitions
+      At line 283 in file Sudoku.s
+   Uses
+      At line 278 in file Sudoku.s
+Comment: continue2 used once
+continue3 00000350
+
+Symbol: continue3
+   Definitions
+      At line 318 in file Sudoku.s
+   Uses
+      At line 313 in file Sudoku.s
+      At line 315 in file Sudoku.s
+
+continue4 0000039C
+
+Symbol: continue4
+   Definitions
+      At line 340 in file Sudoku.s
+   Uses
+      At line 335 in file Sudoku.s
+Comment: continue4 used once
+eTryWh 0000048C
+
+Symbol: eTryWh
+   Definitions
+      At line 437 in file Sudoku.s
+   Uses
+      At line 421 in file Sudoku.s
+      At line 423 in file Sudoku.s
+
+ecParWh 000003A0
+
+Symbol: ecParWh
+   Definitions
+      At line 343 in file Sudoku.s
+   Uses
+      At line 304 in file Sudoku.s
+Comment: ecParWh used once
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
+ecParWh2 0000037C
+
+Symbol: ecParWh2
+   Definitions
+      At line 331 in file Sudoku.s
+   Uses
+      At line 307 in file Sudoku.s
+Comment: ecParWh2 used once
+endExWh 0000055C
+
+Symbol: endExWh
+   Definitions
+      At line 504 in file Sudoku.s
+   Uses
+      At line 457 in file Sudoku.s
+Comment: endExWh used once
+endExWh2 00000550
+
+Symbol: endExWh2
+   Definitions
+      At line 500 in file Sudoku.s
+   Uses
+      At line 478 in file Sudoku.s
+Comment: endExWh2 used once
+endExtraMile 00000024
+
+Symbol: endExtraMile
+   Definitions
+      At line 19 in file Sudoku.s
+   Uses
+      At line 507 in file Sudoku.s
+Comment: endExtraMile used once
+endLoop 000004F0
+
+Symbol: endLoop
+   Definitions
+      At line 471 in file Sudoku.s
+   Uses
+      At line 467 in file Sudoku.s
+Comment: endLoop used once
+endSudoku 000004A8
+
+Symbol: endSudoku
+   Definitions
+      At line 446 in file Sudoku.s
+   Uses
+      At line 412 in file Sudoku.s
+      At line 415 in file Sudoku.s
+      At line 440 in file Sudoku.s
+
+endbWhile 0000025C
+
+Symbol: endbWhile
+   Definitions
+      At line 237 in file Sudoku.s
+   Uses
+      At line 121 in file Sudoku.s
+Comment: endbWhile used once
+endbWhile2 00000250
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: endbWhile2
+   Definitions
+      At line 233 in file Sudoku.s
+   Uses
+      At line 124 in file Sudoku.s
+Comment: endbWhile2 used once
+endcWhile 000000D0
+
+Symbol: endcWhile
+   Definitions
+      At line 114 in file Sudoku.s
+   Uses
+      At line 97 in file Sudoku.s
+Comment: endcWhile used once
+endcWhile2 000000B8
+
+Symbol: endcWhile2
+   Definitions
+      At line 107 in file Sudoku.s
+   Uses
+      At line 100 in file Sudoku.s
+Comment: endcWhile2 used once
+endif9 00000248
+
+Symbol: endif9
+   Definitions
+      At line 230 in file Sudoku.s
+   Uses
+      At line 223 in file Sudoku.s
+      At line 225 in file Sudoku.s
+
+endifst 000003E4
+
+Symbol: endifst
+   Definitions
+      At line 370 in file Sudoku.s
+   Uses
+      At line 366 in file Sudoku.s
+Comment: endifst used once
+endrWhile 00000088
+
+Symbol: endrWhile
+   Definitions
+      At line 90 in file Sudoku.s
+   Uses
+      At line 75 in file Sudoku.s
+Comment: endrWhile used once
+endrWhile2 00000070
+
+Symbol: endrWhile2
+   Definitions
+      At line 83 in file Sudoku.s
+   Uses
+      At line 78 in file Sudoku.s
+Comment: endrWhile2 used once
+endvWhile 000003EC
+
+Symbol: endvWhile
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 373 in file Sudoku.s
+   Uses
+      At line 356 in file Sudoku.s
+      At line 369 in file Sudoku.s
+
+erParWh 000002F0
+
+Symbol: erParWh
+   Definitions
+      At line 286 in file Sudoku.s
+   Uses
+      At line 255 in file Sudoku.s
+Comment: erParWh used once
+erParWh2 000002CC
+
+Symbol: erParWh2
+   Definitions
+      At line 274 in file Sudoku.s
+   Uses
+      At line 258 in file Sudoku.s
+Comment: erParWh2 used once
+exWh 000004BC
+
+Symbol: exWh
+   Definitions
+      At line 455 in file Sudoku.s
+   Uses
+      At line 503 in file Sudoku.s
+Comment: exWh used once
+exWh2 000004F8
+
+Symbol: exWh2
+   Definitions
+      At line 475 in file Sudoku.s
+   Uses
+      At line 461 in file Sudoku.s
+      At line 496 in file Sudoku.s
+      At line 499 in file Sudoku.s
+
+extraMile 000004AC
+
+Symbol: extraMile
+   Definitions
+      At line 450 in file Sudoku.s
+   Uses
+      At line 18 in file Sudoku.s
+Comment: extraMile used once
+false 000003DC
+
+Symbol: false
+   Definitions
+      At line 367 in file Sudoku.s
+   Uses
+      At line 360 in file Sudoku.s
+      At line 363 in file Sudoku.s
+
+finished 000003F8
+
+
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: finished
+   Definitions
+      At line 384 in file Sudoku.s
+   Uses
+      At line 377 in file Sudoku.s
+Comment: finished used once
+getSquare 0000002C
+
+Symbol: getSquare
+   Definitions
+      At line 51 in file Sudoku.s
+   Uses
+      At line 61 in file Sudoku.s
+      At line 79 in file Sudoku.s
+      At line 130 in file Sudoku.s
+      At line 142 in file Sudoku.s
+      At line 154 in file Sudoku.s
+      At line 166 in file Sudoku.s
+      At line 180 in file Sudoku.s
+      At line 194 in file Sudoku.s
+      At line 204 in file Sudoku.s
+      At line 216 in file Sudoku.s
+      At line 226 in file Sudoku.s
+      At line 403 in file Sudoku.s
+      At line 441 in file Sudoku.s
+
+goOn 0000053C
+
+Symbol: goOn
+   Definitions
+      At line 494 in file Sudoku.s
+   Uses
+      At line 490 in file Sudoku.s
+Comment: goOn used once
+if1 000000E8
+
+Symbol: if1
+   Definitions
+      At line 125 in file Sudoku.s
+   Uses
+      None
+Comment: if1 unused
+if2 00000108
+
+Symbol: if2
+   Definitions
+      At line 135 in file Sudoku.s
+   Uses
+      At line 127 in file Sudoku.s
+      At line 129 in file Sudoku.s
+
+if3 00000130
+
+Symbol: if3
+   Definitions
+      At line 147 in file Sudoku.s
+   Uses
+      At line 137 in file Sudoku.s
+      At line 139 in file Sudoku.s
+
+
+
+ARM Macro Assembler    Page 7 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 141 in file Sudoku.s
+
+if4 00000158
+
+Symbol: if4
+   Definitions
+      At line 159 in file Sudoku.s
+   Uses
+      At line 149 in file Sudoku.s
+      At line 151 in file Sudoku.s
+      At line 153 in file Sudoku.s
+
+if5 00000180
+
+Symbol: if5
+   Definitions
+      At line 171 in file Sudoku.s
+   Uses
+      At line 161 in file Sudoku.s
+      At line 163 in file Sudoku.s
+      At line 165 in file Sudoku.s
+
+if6 000001B0
+
+Symbol: if6
+   Definitions
+      At line 185 in file Sudoku.s
+   Uses
+      At line 173 in file Sudoku.s
+      At line 175 in file Sudoku.s
+      At line 177 in file Sudoku.s
+      At line 179 in file Sudoku.s
+
+if7 000001E0
+
+Symbol: if7
+   Definitions
+      At line 199 in file Sudoku.s
+   Uses
+      At line 187 in file Sudoku.s
+      At line 189 in file Sudoku.s
+      At line 191 in file Sudoku.s
+      At line 193 in file Sudoku.s
+
+if8 00000200
+
+Symbol: if8
+   Definitions
+      At line 209 in file Sudoku.s
+   Uses
+      At line 201 in file Sudoku.s
+      At line 203 in file Sudoku.s
+
+if9 00000228
+
+Symbol: if9
+   Definitions
+      At line 221 in file Sudoku.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 8 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 211 in file Sudoku.s
+      At line 213 in file Sudoku.s
+      At line 215 in file Sudoku.s
+
+ifelse 00000448
+
+Symbol: ifelse
+   Definitions
+      At line 417 in file Sudoku.s
+   Uses
+      At line 405 in file Sudoku.s
+Comment: ifelse used once
+ifend 0000041C
+
+Symbol: ifend
+   Definitions
+      At line 401 in file Sudoku.s
+   Uses
+      At line 398 in file Sudoku.s
+Comment: ifend used once
+ififelse 00000440
+
+Symbol: ififelse
+   Definitions
+      At line 413 in file Sudoku.s
+   Uses
+      At line 408 in file Sudoku.s
+      At line 410 in file Sudoku.s
+
+ififelse2 00000484
+
+Symbol: ififelse2
+   Definitions
+      At line 434 in file Sudoku.s
+   Uses
+      At line 429 in file Sudoku.s
+      At line 431 in file Sudoku.s
+
+isValid 00000050
+
+Symbol: isValid
+   Definitions
+      At line 72 in file Sudoku.s
+   Uses
+      At line 425 in file Sudoku.s
+Comment: isValid used once
+loop 000004D8
+
+Symbol: loop
+   Definitions
+      At line 464 in file Sudoku.s
+   Uses
+      At line 470 in file Sudoku.s
+Comment: loop used once
+printHLine 000004D4
+
+Symbol: printHLine
+   Definitions
+      At line 462 in file Sudoku.s
+
+
+
+ARM Macro Assembler    Page 9 Alphabetic symbol ordering
+Relocatable symbols
+
+   Uses
+      At line 459 in file Sudoku.s
+Comment: printHLine used once
+printVLine 00000534
+
+Symbol: printVLine
+   Definitions
+      At line 491 in file Sudoku.s
+   Uses
+      At line 488 in file Sudoku.s
+Comment: printVLine used once
+rPartlyWh 00000274
+
+Symbol: rPartlyWh
+   Definitions
+      At line 246 in file Sudoku.s
+   Uses
+      At line 268 in file Sudoku.s
+      At line 285 in file Sudoku.s
+
+rPartlyWh2 0000028C
+
+Symbol: rPartlyWh2
+   Definitions
+      At line 256 in file Sudoku.s
+   Uses
+      At line 273 in file Sudoku.s
+Comment: rPartlyWh2 used once
+rWhile 00000050
+
+Symbol: rWhile
+   Definitions
+      At line 73 in file Sudoku.s
+   Uses
+      At line 89 in file Sudoku.s
+Comment: rWhile used once
+rWhile2 00000058
+
+Symbol: rWhile2
+   Definitions
+      At line 76 in file Sudoku.s
+   Uses
+      At line 82 in file Sudoku.s
+Comment: rWhile2 used once
+setSquare 0000003C
+
+Symbol: setSquare
+   Definitions
+      At line 60 in file Sudoku.s
+   Uses
+      At line 424 in file Sudoku.s
+      At line 444 in file Sudoku.s
+
+setfinished 0000004C
+
+Symbol: setfinished
+   Definitions
+      At line 65 in file Sudoku.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 10 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 63 in file Sudoku.s
+Comment: setfinished used once
+start 00000000
+
+Symbol: start
+   Definitions
+      At line 5 in file Sudoku.s
+   Uses
+      At line 3 in file Sudoku.s
+Comment: start used once
+stop 00000028
+
+Symbol: stop
+   Definitions
+      At line 46 in file Sudoku.s
+   Uses
+      At line 46 in file Sudoku.s
+Comment: stop used once
+sudoku 000003FC
+
+Symbol: sudoku
+   Definitions
+      At line 390 in file Sudoku.s
+   Uses
+      At line 20 in file Sudoku.s
+Comment: sudoku used once
+tryWh 00000448
+
+Symbol: tryWh
+   Definitions
+      At line 418 in file Sudoku.s
+   Uses
+      At line 427 in file Sudoku.s
+      At line 433 in file Sudoku.s
+      At line 436 in file Sudoku.s
+
+vWhile 000003B0
+
+Symbol: vWhile
+   Definitions
+      At line 354 in file Sudoku.s
+   Uses
+      At line 372 in file Sudoku.s
+Comment: vWhile used once
+wrong 000003F0
+
+Symbol: wrong
+   Definitions
+      At line 380 in file Sudoku.s
+   Uses
+      At line 271 in file Sudoku.s
+      At line 328 in file Sudoku.s
+
+67 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Grids 00000000
+
+Symbol: Grids
+   Definitions
+      At line 513 in file Sudoku.s
+   Uses
+      None
+Comment: Grids unused
+boxSumArray 00000014
+
+Symbol: boxSumArray
+   Definitions
+      At line 518 in file Sudoku.s
+   Uses
+      At line 12 in file Sudoku.s
+Comment: boxSumArray used once
+colSumArray 0000000A
+
+Symbol: colSumArray
+   Definitions
+      At line 516 in file Sudoku.s
+   Uses
+      At line 11 in file Sudoku.s
+      At line 350 in file Sudoku.s
+
+gridOne 0000001E
+
+Symbol: gridOne
+   Definitions
+      At line 520 in file Sudoku.s
+   Uses
+      None
+Comment: gridOne unused
+rowSumArray 00000000
+
+Symbol: rowSumArray
+   Definitions
+      At line 514 in file Sudoku.s
+   Uses
+      At line 10 in file Sudoku.s
+      At line 349 in file Sudoku.s
+
+testSolutionThree 0000006F
+
+Symbol: testSolutionThree
+   Definitions
+      At line 532 in file Sudoku.s
+   Uses
+      At line 6 in file Sudoku.s
+Comment: testSolutionThree used once
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+sendchar 00000000
+
+Symbol: sendchar
+   Definitions
+      At line 2 in file Sudoku.s
+   Uses
+      At line 469 in file Sudoku.s
+      At line 473 in file Sudoku.s
+      At line 483 in file Sudoku.s
+      At line 485 in file Sudoku.s
+      At line 493 in file Sudoku.s
+      At line 498 in file Sudoku.s
+
+1 symbol
+414 symbols in table

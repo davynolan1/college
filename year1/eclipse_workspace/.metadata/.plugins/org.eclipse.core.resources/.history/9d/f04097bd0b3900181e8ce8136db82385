@@ -1,0 +1,9 @@
+package OrderProgram;
+
+public class Order {
+	int orderId;
+	
+	public Order(int orderId) {
+		this.orderId = orderId;
+	}
+}

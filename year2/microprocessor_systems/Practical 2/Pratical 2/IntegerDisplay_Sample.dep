@@ -1,0 +1,3 @@
+Dependencies for Project 'IntegerDisplay', Target 'Sample': (DO NOT MODIFY !)
+F (.\IntegerDisplay.s)(0x5C61699D)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--pd "__UVISION_VERSION SETA 516"--list .\listings\integerdisplay.lst --xref -o .\integerdisplay.o --depend .\integerdisplay.d)
+F (.\EA-LPC2138-EDU-ASM.lib)(0x5C4DE206)()

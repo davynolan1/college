@@ -1,0 +1,100 @@
+class BusinessObject {
+  int numOfStars;
+  String businessId;
+  String businessName;
+  ArrayList businessReviewList=new ArrayList<ReviewObject>();
+  int avgStars;
+  PImage star = loadImage("starImage.png");
+  PFont font;
+  float barWidth1 = 0;
+  float barWidth2 = 0;
+  float barWidth3 = 0;
+  float barWidth4 = 0;
+  float barWidth5 = 0;
+
+
+  BusinessObject(String businessId, ArrayList<ReviewObject> reviews, PFont font) {
+    for (int index=0; index<reviews.size(); index++) {
+      ReviewObject tmpReview = (ReviewObject)reviews.get(index);
+      if (tmpReview.businessId.equals(businessId)) {
+        this.businessName =tmpReview.businessName;
+
+        businessReviewList.add(tmpReview);                  //all reviews of this particular business will be stored in businessReviewList
+        this.numOfStars+=tmpReview.numOfStars;
+      }
+    }
+
+    //ReviewObject tmpReview =(ReviewObject) businessReviewList.get(0);  //
+    //this.businessName=tmpReview.businessName;                      //sets the business name (all the same name in the businessReviewList as all from same business)
+
+    this.font=font;
+    textFont(font);
+    avgStars = numOfStars/businessReviewList.size();
+  }
+
+  void draw() {
+    text(businessName, 100, 100);
+
+    star.resize(STAR_WIDTH, STAR_HEIGHT);                  //average stars printed to screen
+    int starXpos = 50;
+    for (int i=0; i < avgStars; i++)
+    {
+        image(star, starXpos, 150);
+        starXpos+=55;
+    }
+    
+    //int starStart=1900;
+    //for (int index=1; index<=avgStars; index++) {          //does not work in practise yet but leave in.
+    //  image(star, starStart, 1900);
+    //  delay(2000);
+    // starStart+=STAR_WIDTH;
+    //}
+    int numStart = 440;
+    noStroke();
+    rect(600, 400, 5, 200);
+    rect(600, 600, 400, 5);
+    for(int j=5; j>=1; j--){
+      text(int(j), 570, numStart); 
+      numStart += 40;
+    }
+
+
+
+    
+    
+    //text("5", 1470, 1510);
+    //text("4", 1470, 1550);
+    //text("3", 1470, 1590);
+    //text("2", 1470, 1630);
+    //text("1", 1470, 1670);
+  
+    for(int index=0 ;index<businessReviewList.size(); index++){
+      ReviewObject temp = (ReviewObject)businessReviewList.get(index);
+      if(temp.numOfStars == 1){
+        barWidth1 += 0.5;
+        fill(255,0,0);
+        rect(605, 400+(BAR_HEIGHT*4), barWidth1, BAR_HEIGHT);
+      }
+      if(temp.numOfStars == 2){
+        barWidth2 += 0.5;
+        fill(255,128,0);
+        rect(605, 400+(BAR_HEIGHT*3), barWidth2, BAR_HEIGHT);
+      }
+      if(temp.numOfStars == 3){
+        barWidth3 += 0.5;
+        fill(255,255,0);
+        rect(605, 400+(BAR_HEIGHT*2), barWidth3, BAR_HEIGHT);
+      }
+      if(temp.numOfStars == 4){
+        barWidth4 += 0.5;
+        fill(128,255,0);
+        rect(605, 400+BAR_HEIGHT, barWidth4, BAR_HEIGHT);
+      }
+      if(temp.numOfStars == 5){
+        barWidth5 += 0.5;
+        fill(0,255,0);
+        rect(605, 400, barWidth5, BAR_HEIGHT);
+      }
+  }
+}
+}

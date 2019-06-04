@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class PoundsShillingsPennies {
+
+	public static void main(String[] args) {
+		String input = JOptionPane.showInputDialog("Enter amounts of old pounds, shillings and pennies separated by spaces ");
+		Scanner inputScanner = new Scanner( input );
+		double oldPound = inputScanner.nextDouble();
+		double oldShill = inputScanner.nextDouble();
+		double oldPenny = inputScanner.nextDouble();
+		inputScanner.close();
+		
+		double newPenny = oldPound*16080 + oldShill*804 + oldPenny*67;
+		float newPound = (float) (newPenny/100);
+				
+				JOptionPane.showMessageDialog(null,"£"+newPound);
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		// TODO Auto-generated method stub
+
+	}
+
+}

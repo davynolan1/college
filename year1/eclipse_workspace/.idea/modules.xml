@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ArrayStudy/ArrayStudy.iml" filepath="$PROJECT_DIR$/ArrayStudy/ArrayStudy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Average Standard Deviation/Average Standard Deviation.iml" filepath="$PROJECT_DIR$/Average Standard Deviation/Average Standard Deviation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bank application/Bank application.iml" filepath="$PROJECT_DIR$/Bank application/Bank application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Chuck-a-luck/Chuck-a-luck.iml" filepath="$PROJECT_DIR$/Chuck-a-luck/Chuck-a-luck.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Cipher/Cipher.iml" filepath="$PROJECT_DIR$/Cipher/Cipher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Club Project/Club Project.iml" filepath="$PROJECT_DIR$/Club Project/Club Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day of the Week/Day of the Week.iml" filepath="$PROJECT_DIR$/Day of the Week/Day of the Week.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Factorian/Factorian.iml" filepath="$PROJECT_DIR$/Factorian/Factorian.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FileReaderTest/FileReaderTest.iml" filepath="$PROJECT_DIR$/FileReaderTest/FileReaderTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Function study/Function study.iml" filepath="$PROJECT_DIR$/Function study/Function study.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HiLo/HiLo.iml" filepath="$PROJECT_DIR$/HiLo/HiLo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/High Score/High Score.iml" filepath="$PROJECT_DIR$/High Score/High Score.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Incremental Stat/Incremental Stat.iml" filepath="$PROJECT_DIR$/Incremental Stat/Incremental Stat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Incremental Statistics/Incremental Statistics.iml" filepath="$PROJECT_DIR$/Incremental Statistics/Incremental Statistics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Minesweeper/Minesweeper.iml" filepath="$PROJECT_DIR$/Minesweeper/Minesweeper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Noughts and Crosses/Noughts and Crosses.iml" filepath="$PROJECT_DIR$/Noughts and Crosses/Noughts and Crosses.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OOPStude/OOPStude.iml" filepath="$PROJECT_DIR$/OOPStude/OOPStude.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OOPStudy/OOPStudy.iml" filepath="$PROJECT_DIR$/OOPStudy/OOPStudy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ObjectTest/ObjectTest.iml" filepath="$PROJECT_DIR$/ObjectTest/ObjectTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OddEven/OddEven.iml" filepath="$PROJECT_DIR$/OddEven/OddEven.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rational Numbers/Rational Numbers.iml" filepath="$PROJECT_DIR$/Rational Numbers/Rational Numbers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sieve of Eratosthenes/Sieve of Eratosthenes.iml" filepath="$PROJECT_DIR$/Sieve of Eratosthenes/Sieve of Eratosthenes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SieveEratos/SieveEratos.iml" filepath="$PROJECT_DIR$/SieveEratos/SieveEratos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SqAge/SqAge.iml" filepath="$PROJECT_DIR$/SqAge/SqAge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Triangular Stars/Triangular Stars.iml" filepath="$PROJECT_DIR$/Triangular Stars/Triangular Stars.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Twelve Days of Christmas/Twelve Days of Christmas.iml" filepath="$PROJECT_DIR$/Twelve Days of Christmas/Twelve Days of Christmas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Vectors/Vectors.iml" filepath="$PROJECT_DIR$/Vectors/Vectors.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Word links/Word links.iml" filepath="$PROJECT_DIR$/Word links/Word links.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bank/bank.iml" filepath="$PROJECT_DIR$/bank/bank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/leap years/leap years.iml" filepath="$PROJECT_DIR$/leap years/leap years.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testttt/testttt.iml" filepath="$PROJECT_DIR$/testttt/testttt.iml" />
+    </modules>
+  </component>
+</project>

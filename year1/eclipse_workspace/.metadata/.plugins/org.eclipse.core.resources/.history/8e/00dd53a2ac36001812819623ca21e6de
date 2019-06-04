@@ -1,0 +1,38 @@
+package ConnectFour;
+
+import java.util.Scanner;
+
+public class Connect4Game {
+
+	private static final int BOARD_WIDTH = 7;
+	private static final int BOARD_HEIGHT = 6;
+
+	public static void main(String[] args) {
+		boolean finished = false;
+		do {
+			System.out.println("Would you like to play Connect Four?(Please enter 'Yes' or 'no')");
+			Scanner s = new Scanner(System.in);
+			if(s.hasNext("yes") || s.hasNext("Yes") || s.hasNext("YES")) {
+				Connect4Grid grid = new Connect4Grid2DArray();
+				//grid.emptyGrid();
+				char[][] board = new char[BOARD_WIDTH][BOARD_HEIGHT];
+				ConnectPlayer player1 = new C4HumanPlayer();
+				System.out.println("Do you wish to play against a human or computer?(enter 'human' or 'computer')");
+				Scanner sc = new Scanner(System.in);
+				if(sc.hasNext("human")) {
+					ConnectPlayer player2 = new C4HumanPlayer();
+				}
+				else if(sc.hasNext("computer")) {
+					ConnectPlayer player2 = new C4RandomAIPlayer();
+				}
+			}
+			
+			
+			
+			
+			
+		}while(!finished);
+
+	}
+
+}

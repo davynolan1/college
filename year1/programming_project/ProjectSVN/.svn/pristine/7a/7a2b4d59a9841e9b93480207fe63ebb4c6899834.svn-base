@@ -1,0 +1,228 @@
+PFont words;
+ArrayList<ReviewObject>reviewsList;
+String Review1;
+ArrayList<Widget>widgetList;
+ArrayList<TextWidget>textWidgetList;
+color color1 = color(119, 209, 210);
+color color2 = color(252, 132, 252);
+ArrayList<Widget> firstList;
+ArrayList<Widget> secondList;
+String searchWord = "";
+
+Screen currentQuery;
+Screen screenQuery1;                          //query 1 Screen = trending businesses ...homepage
+Screen screenQuery2;                           //query 2 Screen = one business (when looked up or clicked on)
+Screen screenQuery3;
+Screen screenQuery4;                          //searched buisness
+Screen screenQuery5;                          //reviewer class
+BusinessObject currentBusiness;
+BusinessObject anotherBusiness;
+BusinessObject searchedBusiness;
+TextWidget focus; 
+Reviewer reviewer;
+
+int reviewPrintIndex;
+
+void settings() {
+  size(SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+void setup() {
+  background(0);
+  reviewsList = new ArrayList<ReviewObject>();
+  String[] reviews = loadStrings("reviews_cleaned.csv");
+  PFont words = loadFont("AgencyFB-Reg-48.vlw");
+  textFont(words);
+
+  for (int i=0; i<reviews.length; i++) 
+  {
+    String[] reviewsProperties = reviews[i].split(",");
+
+    String userId = reviewsProperties[0];
+    String userName = reviewsProperties[1];
+    String businessId = reviewsProperties[2];
+    String businessName = reviewsProperties[3];
+    String s = reviewsProperties[4];
+    int stars = int(s);
+    String date = reviewsProperties[5];
+    String text =reviewsProperties[6];
+    String u =reviewsProperties[7];
+    int useful = int(u);
+    String f = reviewsProperties[8];
+    int funny = int(f);
+    String c= reviewsProperties[9];
+    int cool = int(c);
+
+
+    ReviewObject reviewObject= new ReviewObject(userId, userName, businessId, businessName, stars, date, text, useful, funny, cool);
+    reviewsList.add(reviewObject);
+  }
+  currentBusiness = new BusinessObject("AEx2SYEUJmTxVVB18LlCwA", reviewsList, words);    //test-user will be entering the business name and this will generate the ID to be passed in.
+  anotherBusiness = new BusinessObject("gkCorLgPyQLsptTHalL61g", reviewsList, words);
+  //searchedBusiness = null;
+  //widgets tests
+  firstList = new ArrayList<Widget>();                      //widgets that will be on screen 1 (homepage - trending resteraunts)
+  secondList = new ArrayList<Widget>();                      //widgets that will be on screen 2 (business page)
+  textSize(30);
+
+  Widget widget1=new Widget(400, 200, 250, 50, 
+    currentBusiness.businessName.substring(3, currentBusiness.businessName.length()-3), color(100), 
+    words, EVENT_BUTTON1);
+  addWidget( widget1, firstList);
+
+  Widget widget2 = new Widget(400, 300, 250, 50, anotherBusiness.businessName.substring(3, anotherBusiness.businessName.length()-3), color(100), words, EVENT_BUTTON2);
+  addWidget(widget2, firstList);
+
+  Widget widget3 = new Widget(400, 400, 250, 50, searchWord, color(100), words, EVENT_BUTTON3);
+  addWidget(widget3, firstList);
+
+  Widget widget4 = new Widget(740, 10, 250, 50, 
+    "Go back", color(100), 
+    words, EVENT_BUTTON4);   
+  addWidget( widget4, secondList);
+
+  Widget widget5 = new Widget(25, 920, 100, 50, "Previous", color(100), words, EVENT_BUTTON5);
+  addWidget(widget5, secondList);
+
+  Widget widget6 = new Widget(150, 920, 100, 50, "Next", color(100), words, EVENT_BUTTON6);
+  addWidget(widget6, secondList);
+
+  TextWidget searchBar = new TextWidget(200, 500, 500, 40, //search bar, last parameter is the max input length
+    "", color(255), words, SEARCH_BUTTON, 33);
+  addWidget(searchBar, firstList);
+
+
+  screenQuery1 = new Screen(color1, firstList);
+  screenQuery2 = new Screen(color2, secondList);
+  screenQuery3 = new Screen(color2, secondList);
+  screenQuery4 = new Screen(color2, secondList);
+  screenQuery5 = new Screen(color2, secondList);
+
+  currentQuery =  screenQuery1;                                                                  //default query = query 1
+  
+  
+}
+
+void draw() {
+  currentQuery.draw();
+  if (focus!=null) {
+    searchWord=focus.getInput();
+    Widget widget3 = new Widget(400, 400, 250, 50, searchWord, color(100), words, EVENT_BUTTON3);
+    addWidget(widget3, firstList);
+  }
+  if (currentQuery ==  screenQuery1)
+  {
+    fill(194, 232, 237);
+    stroke(3);
+    rect(375, 50, TITLE_WIDTH, TITLE_HEIGHT);
+    fill(0);
+    text("Trending now", 425, 100);                             //heading for homepage if on homepage screen.
+  } else if (currentQuery ==  screenQuery2)
+  {
+    currentBusiness.draw();
+  } else if (currentQuery == screenQuery3) {
+    anotherBusiness.draw();
+  } else if (currentQuery == screenQuery4) {
+    /* searchedBusiness=null;
+     for (int count=0; count<reviewsList.size(); count++) {
+     ReviewObject tmpReview = (ReviewObject)reviewsList.get(count);
+     if (tmpReview.businessName.equals(searchWord)) {
+     searchedBusiness = new BusinessObject(tmpReview.businessId, reviewsList, words);
+     }
+     }*/
+    if (searchedBusiness!=null) {
+      searchedBusiness.draw();
+    } else if (searchedBusiness==null) {
+      currentQuery=screenQuery1;
+    }
+  }
+}
+void mouseMoved() {                                                  //widgets highlighted to show they are clickable
+  // focus=null;                    //deselectes search bar
+  int event;
+  widgetList = currentQuery.getWidgets();
+  for (int i = 0; i<widgetList.size(); i++) {
+    Widget aWidget = (Widget) widgetList.get(i);
+    event = aWidget.getEvent(mouseX, mouseY);
+    if (event<SEARCH_BUTTON) {
+      if (event != EVENT_NULL) {
+        aWidget.mouseOver();
+      } else
+        aWidget.mouseNotOver();
+    }
+  }
+}
+void mousePressed() {                                                //function carried out in response to mouse click
+  int event;
+  widgetList = currentQuery.getWidgets();
+  for (int i = 0; i<widgetList.size(); i++) {
+    Widget aWidget = (Widget) widgetList.get(i); //checking if regular widget was pressed
+    event = aWidget.getEvent(mouseX, mouseY);
+    if (event<SEARCH_BUTTON) {
+      switch(event) {
+      case EVENT_BUTTON1:
+        println("button 1!"); 
+        currentQuery =  screenQuery2;
+        break;
+      case EVENT_BUTTON2:
+        println("button 2!");
+        currentQuery =  screenQuery3;
+        break;
+      case EVENT_BUTTON3:                                //later on will do whatever function the widget pressed says it does. For now just showing they pressed.
+        println("button 3!");
+        currentQuery =  screenQuery4;    //search query
+        break;
+      case EVENT_BUTTON4:
+        searchedBusiness = null;
+        println("button 4!");
+        for (int count=0; count<reviewsList.size(); count++) {
+          ReviewObject tmpReview = (ReviewObject)reviewsList.get(count);
+          if (tmpReview.businessName.equals(searchWord)) {
+            searchedBusiness = new BusinessObject(tmpReview.businessId, reviewsList, words);    //should set the button to the search term
+          }
+        }
+        currentQuery =  screenQuery1;
+        break;
+      case EVENT_BUTTON5:
+        println("button 5!");
+        if (reviewPrintIndex!=0)reviewPrintIndex--;
+        break;
+      case EVENT_BUTTON6:
+        println("button 6!");
+        if (reviewPrintIndex<=currentBusiness.businessReviewList.size())
+          reviewPrintIndex++;
+        break;
+       case EVENT_BUTTON7:
+        println("button 7!");
+        currentQuery = screenQuery5;
+      }
+
+    } else {
+      TextWidget aTextWidget = (TextWidget)widgetList.get(i);
+      event = aTextWidget.getEvent(mouseX, mouseY);
+      switch(event) {
+      case SEARCH_BUTTON:
+        focus = aTextWidget;
+        println("search button");
+        break;
+      }
+    }
+  }
+}
+
+
+
+void keyPressed()
+{
+  if (focus != null)
+  {
+    focus.append(key, reviewsList);
+   // println("searchWord is: "+searchWord);      //1 letter behind, may want to replace with focus.getLabel
+    println("label is: "+focus.getInput());      //same issue, has ? when SHIFT is pressed
+    searchWord=focus.getInput();
+  }
+}
+void addWidget(Widget theWidget, ArrayList<Widget>widgetList) 
+{
+  widgetList.add(theWidget);
+}

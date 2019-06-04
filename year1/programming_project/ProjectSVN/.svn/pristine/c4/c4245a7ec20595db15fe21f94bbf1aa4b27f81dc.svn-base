@@ -1,0 +1,139 @@
+class Reviewer {
+
+  String userID;
+  String userName;
+  int totalReviews;
+  ArrayList<ReviewObject>userReviewSet = new ArrayList<ReviewObject>();
+  float scrollPos;
+  float barWidth1;
+  float barWidth2;
+  float barWidth3;
+
+  Reviewer(String userID, String userName, ArrayList<ReviewObject> reviews) {
+    int count = 0;
+    boolean userNameFound = false;
+    while (!userNameFound) {
+      ReviewObject testReview = (ReviewObject) reviews.get(count);
+      if (testReview.userName.equals(userName)) {
+        this.userName = userName;
+        userNameFound = true;
+      } else {
+        count++;
+      }
+    }
+    for (int index = 0; index<reviews.size(); index++) {
+      ReviewObject temp = (ReviewObject)reviews.get(index);
+      if (temp.userName.equals(userName)) {
+        userReviewSet.add(temp);
+        println(index);
+        println(temp.userName);
+      }
+    }
+  }
+
+  void draw() {
+    scrollPos = vs1.getPos();
+    vs1.update();
+    vs1.display();
+    fill(0);
+    //text(userName, 100, 100);
+    if (reviewPrintIndex < userReviewSet.size()-1) {
+
+      ReviewObject userReview =(ReviewObject)reviewsList.get(reviewPrintIndex);      //test single instance ... WHEN next widget is pressed it should go to next review.
+
+      //text(userReview.date, 250, 300);
+
+      String text = "";
+      String[] textString =  userReview.text.split(" ");                          //make a string array of thr words in review text
+      int reviewXpos = 400; 
+      int reviewYpos = 300;
+      for (int j=0; j<textString.length; j++)                                    //prints each word one by one, moving the xpos by number of charachters in the word + number.
+      {
+        text = textString[j];
+        char[] textChar = text.toCharArray();
+        int wordLength = textChar.length*15;                                      //moving forward xpos after each word by word length *15 so enough space.
+        if (textChar.length>0) {
+
+          String lastCharachter = str(textChar[textChar.length-1]);
+          if (lastCharachter.equals("."))
+          {
+            wordLength = textChar.length*200;                                         //after full stop indents the text.
+          } else if (lastCharachter.equals("!"))
+          {
+            wordLength = textChar.length*200;
+          }
+          if (text.equals("a"))                                                        //"a" is small so need to have more space between next word
+          {
+            wordLength = wordLength +5;
+          }
+        }
+        text(text, reviewXpos, reviewYpos+scrollPos);
+        reviewXpos = reviewXpos+wordLength;
+        if (reviewXpos+wordLength>875)                                                //when gets to limit of xpos and can't go further across screen xpos resets and ypos moves down a line to indent.
+        {
+          reviewYpos = reviewYpos+30;
+          reviewXpos = 400;
+        }
+      }
+      text("Page "+(reviewPrintIndex+1)+ " of "+(userReviewSet.size()), 400, 900+scrollPos);
+      fill(222,113,240);
+      stroke(0);
+      rect(450, 65+scrollPos, 150, 50);
+      fill(0);
+      text(userName, 480, 100+scrollPos);
+      String tempBusName = userReviewSet.get(reviewPrintIndex+1).businessName;
+      text("Business: "+tempBusName.substring(3, tempBusName.length()-3), 400, 200+scrollPos);
+      String tempDate = userReviewSet.get(reviewPrintIndex+1).date;
+      text("Date: "+tempDate, 400, 250+scrollPos);
+
+      text("REACTIONS", 68, 340+scrollPos);
+      int tempUseful = userReviewSet.get(reviewPrintIndex+1).useful;
+      //text("Useful: "+tempUseful, 75, 400+scrollPos);
+      int tempFunny = userReviewSet.get(reviewPrintIndex+1).funny;
+      //text("Funny: "+tempFunny, 75, 450+scrollPos);
+      int tempCool = userReviewSet.get(reviewPrintIndex+1).cool;
+      //text("Cool: "+tempCool, 75, 500+scrollPos);
+      int numOfStars = userReviewSet.get(reviewPrintIndex+1).numOfStars;
+      text("Stars given: " + numOfStars, 400, 850+scrollPos );
+
+      //drawing bar chart
+      barWidth1 = 0;
+      barWidth2 = 0;
+      barWidth3 = 0;
+      int numStart = 440;
+      noStroke();
+      rect(75, 400+scrollPos, 5, 200);                      //axis for rectangle
+      rect(75, 600+scrollPos, 250, 5);
+      //for (int j=5; j>=1; j--) {                      //labelling axis with nunbers
+
+      //  image(star, 550, numStart - 40+scrollPos);
+      //  text(int(j), 570, numStart+scrollPos);
+      //  numStart += 40;
+      //}
+
+
+
+
+      barWidth1 = 20*tempUseful;
+      if (barWidth1 > 200) {
+        barWidth1 = 200;
+      }
+      fill(206, 6, 6);
+      rect(75, 600+scrollPos, 75, barWidth1);
+
+      if (barWidth2 > 200) {
+        barWidth2 = 200;
+      }
+      barWidth2 = 20*tempFunny;
+      fill(245, 150, 7);
+      rect(158, 600+scrollPos, 75, barWidth2);
+
+      if (barWidth3 > 200) {
+        barWidth3 = 200;
+      }
+      barWidth3 =20*tempCool;
+      fill(244, 245, 7);
+      rect(241, 600+scrollPos, 75, barWidth3);
+    }
+  }
+}

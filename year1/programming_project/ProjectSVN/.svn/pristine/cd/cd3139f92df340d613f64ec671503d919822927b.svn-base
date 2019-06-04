@@ -1,0 +1,31 @@
+class TextWidget extends Widget {
+  int maxLen;
+
+  TextWidget(int x, int y, int width, int height, String label, color widgetColor, PFont font, int event, int maxLen)
+  {
+    super(x, y, width, height, label , widgetColor, font, event);
+    this.x = x; 
+    this.y = y; 
+    this.width = width; 
+    this.height = height; 
+    this.label = label; 
+    this.widgetColor = widgetColor; 
+    this.widgetFont = font;
+    this.event = event;
+    this.maxLen = maxLen;
+  }
+
+  void append(char s)
+  {
+    if (s==BACKSPACE)
+    {
+      if ( !label.equals(""))
+      {
+        label = label.substring(0, label.length()-1);
+      }
+    } else if (label.length()<maxLen)
+    {
+      label = label+str(s);
+    }
+  }
+}

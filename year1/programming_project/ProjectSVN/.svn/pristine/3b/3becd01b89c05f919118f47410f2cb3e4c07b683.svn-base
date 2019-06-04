@@ -1,0 +1,35 @@
+class businessObject {
+  int numOfStars;
+  String businessId;
+  String businessName;
+  ArrayList businessReviewList=new ArrayList<reviewObject>();
+  int avgStars;
+  PImage star;
+  PFont font;
+
+  businessObject(String businessId, ArrayList<ReviewObject> reviews, PFont font) {
+    for (int index=0; index<reviews.size(); index++) {
+      ReviewObject tmpReview = (ReviewObject)reviews.get(index);
+      if (tmpReview.businessId.equals(businessId)) {
+        businessReviewList.add(tmpReview);
+        numOfStars+=tmpReview.numOfStars;
+      }
+    }
+    ReviewObject tmpReview =(ReviewObject) businessReviewList.get(1);
+    this.businessName=tmpReview.businessName;
+    this.font=font;
+    textFont(font);
+    avgStars = numOfStars/businessReviewList.size();
+    star.resize(STAR_WIDTH, STAR_HEIGHT);
+  }
+
+  void draw() {
+    int starStart=1900;
+    text(businessName, 0, 0);
+    for (int index=1; index<=avgStars; index++) {
+      image(star, starStart, 1900);
+      delay(2000);
+      starStart+=STAR_WIDTH;
+    }
+  }
+}

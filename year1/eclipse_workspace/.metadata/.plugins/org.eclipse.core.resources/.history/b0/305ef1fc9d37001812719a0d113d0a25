@@ -1,0 +1,140 @@
+package ConnectFour;
+
+import java.util.Scanner;
+
+public class Connect4Game {
+
+	private static final int BOARD_WIDTH = 7;
+	private static final int BOARD_HEIGHT = 6;
+	
+	public static void main(String[] args) {
+		boolean restart = true;
+		boolean finished = false;
+		char[][] board = new char[BOARD_HEIGHT][BOARD_WIDTH];
+		ConnectPlayer player1 = null;
+		ConnectPlayer player2 = null;
+		ConnectPlayer curPlayer = null;
+		
+		
+		do {	
+			Connect4Grid grid = new Connect4Grid2DArray();
+			ConnectPlayer.currentPlayer = "Player 1";
+			grid.emptyGrid(board);
+			finished = false;
+			System.out.println("Would you like to play Connect Four?(Please enter 'Yes' or 'no')");
+			Scanner s = new Scanner(System.in);
+			if(s.hasNext("yes") || s.hasNext("Yes") || s.hasNext("YES")) {
+				
+				//grid.emptyGrid();
+				
+				player1 = new C4HumanPlayer();
+				System.out.println("Do you wish to play against a human or computer?(enter 'human' or 'computer')");
+				Scanner sc = new Scanner(System.in);
+				if(sc.hasNext("human")) {
+				player2 = new C4HumanPlayer();
+				}
+				else if(sc.hasNext("computer")) {
+				player2 = new C4RandomAIPlayer();
+				}
+				else {
+					System.out.println("Invalid input.");
+				}
+				
+			}
+			else if (s.hasNext("no")) {
+				System.out.println("Goodbye.");
+				restart = false;
+			}
+			restart = false;
+			while(!finished) {
+				String currentPlayer = ConnectPlayer.currentPlayer;
+				if(currentPlayer == "Player 1") {
+					curPlayer = player1;
+				}
+				else if(currentPlayer == "Player 2") {
+					curPlayer = player2;
+				}
+				
+					
+				System.out.println("It's "+currentPlayer+"'s turn.");
+				printBoard(board);
+				System.out.println("Enter column where you want to drop piece.");
+				Scanner scan = new Scanner(System.in);
+				int column = scan.nextInt();
+				grid.dropPiece(curPlayer, column, board);
+				printBoard(board);
+				if(player2.getPlayerType() == "comp") {
+					grid.dropPiece(player2, player2.getRandomMove(), board);
+					printBoard(board);
+				}
+				if(grid.didLastPieceConnect4(board)) {
+					System.out.println("The winner is "+Connect4Grid2DArray.winner);
+					System.out.println("Do you wish to play again?");
+					Scanner playSc = new Scanner(System.in);
+					if(playSc.hasNext("yes")) {
+						grid.emptyGrid(board);
+						restart = true;
+						
+						
+					}
+					else if(playSc.hasNext("no")) {
+						System.out.println("Goodbye.");
+						restart = false;
+						
+					}
+					finished = true;
+					
+				}
+				if(grid.isGridFull(board)) {
+					System.out.println("It was a draw!");
+					System.out.println("Do you wish to play again?");
+					Scanner playSc = new Scanner(System.in);
+					if(playSc.hasNext("yes")) {
+						grid.emptyGrid(board);
+						restart = true;
+						
+						
+					}
+					else if(playSc.hasNext("no")) {
+						System.out.println("Goodbye.");
+						restart = false;
+						
+								
+					}
+					finished = true;
+					
+				}
+				if(player2.getPlayerType() != "comp") {
+					ConnectPlayer.changeCurrentPlayer();
+				}
+			}
+		}while(restart);
+			
+			
+			
+		
+
+	}
+	
+	public static void printBoard (char[][] board) { //prints board to the screen 
+		 int row;
+		 int column;
+		 
+		 
+
+		 for (row = 0; row < BOARD_HEIGHT; row++) {
+			
+		     for (column = 0; column <BOARD_WIDTH; column++) {
+		         System.out.print(board[row][column] + " ");
+		     } 
+		     
+			 
+		     System.out.println();
+		 } 
+		 System.out.println("-------------");
+	     System.out.println("1 2 3 4 5 6 7");
+		
+		 
+	}
+
+}

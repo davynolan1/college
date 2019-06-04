@@ -1,0 +1,54 @@
+package OrderProgram;
+
+import java.util.ArrayList;
+
+public class Inventory {
+	public static ArrayList<Item> itemList = new ArrayList<Item>();
+	public static ArrayList<Order> orderList = new ArrayList<Order>();
+	public static ArrayList<Shipment> shipList = new ArrayList<Shipment>();
+	
+	public static void main(String[] args) {
+		addItemToInventory("500", "Drill", 29.99, 89);
+		addItemToInventory("345", "Hammer", 9.99, 53);
+		printAllItemDetails();
+
+	}
+	
+	public static void addItemToInventory(String itemId, String itemName, double itemPrice, int itemQuantity) {
+		Item tmpItem = new Item(itemId, itemName, itemPrice, itemQuantity);
+		itemList.add(tmpItem);
+	}
+
+	public static ArrayList<Item> findItem (String itemName) {
+		ArrayList<Item> itemsFound = new ArrayList<Item>();
+		for(int i=0; i<itemList.size(); i++) {
+			Item tmp = itemList.get(i);
+			if(tmp.itemName == itemName) {
+				itemsFound.add(tmp);
+			}
+		}
+		return itemsFound;
+	}
+	
+	public static void createOrder(Item item) {
+		Order tempOrder = new Order(item, orderList.size()+1);
+		orderList.add(tempOrder);
+	}
+	
+	public static void createShipment(Shipment shipment) {
+		shipList.add(shipment);
+		}
+	
+	public static void processOrder(int orderId) {
+		Shipment shipment = new Shipment(orderId);
+		createShipment(shipment);
+	}
+	
+	public static void printAllItemDetails() {
+		for(int i=0; i<itemList.size(); i++) {
+			Item tmp = itemList.get(i);
+			System.out.println("ItemId = "+tmp.itemId+", ItemName = "+tmp.itemName
+					+", ItemPrice = "+tmp.itemPrice+", ItemQuantity = "+tmp.itemQuantity);
+		}
+	}
+}

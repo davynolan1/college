@@ -1,0 +1,71 @@
+class Reviewer {
+
+  String userID;
+  String userName;
+  int totalReviews;
+  ArrayList<ReviewObject>userReviewSet = new ArrayList<ReviewObject>();
+
+  Reviewer(String userID, String userName, ArrayList<ReviewObject> reviews) {
+    int count = 0;
+    boolean userNameFound = false;
+    while (!userNameFound) {
+      ReviewObject testReview = (ReviewObject) reviews.get(count);
+      if (testReview.userName.equals(userName)) {
+        this.userName = userName;
+        userNameFound = true;
+      } else {
+        count++;
+      }
+    }
+    for (int index = 0; index<reviews.size(); index++) {
+      ReviewObject temp = (ReviewObject)reviews.get(index);
+      if (temp.userName.equals(userName)) {
+        userReviewSet.add(temp);
+        println(index);
+        println(temp.userName);
+      }
+    }
+  }
+
+  void draw() {
+    fill(0);
+    //text(userName, 100, 100);
+    ReviewObject userReview =(ReviewObject)reviewsList.get(reviewPrintIndex);      //test single instance ... WHEN next widget is pressed it should go to next review.
+
+    //text(userReview.date, 250, 300);
+
+    String text = "";
+    String[] textString =  userReview.text.split(" ");                          //make a string array of thr words in review text
+    int reviewXpos = 25; 
+    int reviewYpos = 400;
+    for (int j=0; j<textString.length; j++)                                    //prints each word one by one, moving the xpos by number of charachters in the word + number.
+    {
+      text = textString[j];
+      char[] textChar = text.toCharArray();
+      int wordLength = textChar.length*15;                                      //moving forward xpos after each word by word length *15 so enough space.
+      if (textChar.length>0) {
+
+        String lastCharachter = str(textChar[textChar.length-1]);
+        if (lastCharachter.equals("."))
+        {
+          wordLength = textChar.length*200;                                         //after full stop indents the text.
+        } else if (lastCharachter.equals("!"))
+        {
+          wordLength = textChar.length*200;
+        }
+        if (text.equals("a"))                                                        //"a" is small so need to have more space between next word
+        {
+          wordLength = wordLength +5;
+        }
+      }
+      text(text, reviewXpos, reviewYpos);
+      reviewXpos = reviewXpos+wordLength;
+      if (reviewXpos+wordLength>500)                                                //when gets to limit of xpos and can't go further across screen xpos resets and ypos moves down a line to indent.
+      {
+        reviewYpos = reviewYpos+30;
+        reviewXpos = 25;
+      }
+    }
+    text("Page "+(reviewPrintIndex+1)+ " of "+(userReviewSet.size()+1), 25, 900);
+  }
+}

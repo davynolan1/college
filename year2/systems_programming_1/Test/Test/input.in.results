@@ -1,0 +1,10 @@
+printing
+infix 3 + 5 X ( 7 - 22 )
+
+answer infix
+infix 36 X ( 7 + 9 + 8 -3 ) / 6
+
+answer infix
+postfix 7 8 3 X 28 + +
+
+answer postfix

@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.ArrayList;
+
+public class ClubManager {
+	public static final int NAME_INDEX = 0;
+	public static final int ADDRESS_INDEX = 1;
+	public static final int YEAR_OF_REG_INDEX = 2;
+	public static final int EMAIL_INDEX = 3;
+	
+	public static void main(String[] args) {
+		ArrayList<ClubMember> clubMemberList = new ArrayList<ClubMember>();
+		try {
+			FileReader fr = new FileReader("members.txt");
+			BufferedReader br = new BufferedReader(br);
+			boolean endOfFile = false;
+			while(!endOfFile) {
+				String member = br.readLine();
+				if(member!=null) {
+					String[] membersList = member.split(", ");
+					String name = membersList[NAME_INDEX];
+					String address = membersList[ADDRESS_INDEX];
+					int yearOfRegistration = Integer.parseInt(membersList[YEAR_OF_REG_INDEX]);
+					String email = membersList[EMAIL_INDEX];
+					ClubMember clubMember = new ClubMember(name, address, yearOfRegistration, email);
+					clubMemberList.add(clubMember);
+					
+							
+				}
+				else {
+					endOfFile = true;
+				}
+			}
+			br.close();
+					
+		}
+	}
+}

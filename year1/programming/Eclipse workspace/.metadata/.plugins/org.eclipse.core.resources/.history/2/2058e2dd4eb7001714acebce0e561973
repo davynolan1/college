@@ -1,0 +1,35 @@
+import java.awt.Component;
+
+import javax.swing.JOptionPane;
+
+public class SquareAges {
+	public static final int MAX_AGE = 123;
+	public static final int MIN_AGE = 0;
+	public static final int CURRENT_YEAR = 2017;
+	public static final int MIN_YEAR = CURRENT_YEAR - MAX_AGE;
+	public static final int MAX_YEAR = CURRENT_YEAR + MAX_AGE;
+	
+		public static void main(String[] args) {
+			
+			for(int age=MIN_AGE ; age <= MAX_AGE; age++)
+			{
+				int squareAge = age * age;
+				if ( squareAge <= MAX_YEAR && squareAge >= MIN_YEAR ) {
+					JOptionPane.showMessageDialog(null, Math.sqrt(squareAge) + " years old " + " in " + " the year " + squareAge );
+				}
+			}
+			
+		
+		
+	
+		
+		
+		
+		
+		
+		
+	
+
+	}
+
+}

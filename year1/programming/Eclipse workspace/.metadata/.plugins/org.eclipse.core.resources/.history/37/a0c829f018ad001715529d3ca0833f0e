@@ -1,0 +1,11 @@
+import javax.swing.JOptionPane;
+
+public class PoundsShillingsPennies {
+
+	public static void main(String[] args) {
+		String input = JOptionPane.showInputDialog("Enter amounts of old pounds, shillings and pennies separated by spaces ");
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,39 @@
+package OrderProgram;
+
+import java.util.ArrayList;
+
+public class Inventory {
+	ArrayList<Item> itemList = new ArrayList<Item>();
+	ArrayList<Order> orderList = new ArrayList<Order>();
+	ArrayList<Shipment> shipList = new ArrayList<Shipment>();
+	
+	public static void main(String[] args) {
+		
+
+	}
+	
+	public void addItemToInventory(String itemId; String itemName, double itemPrice, int itemQuantity) {
+		Item tmpItem = new Item(itemName, itemPrice, itemQuantity);
+		itemList.add(tmpItem);
+	}
+
+	public Item findItem (String itemName) {
+		return
+	}
+	
+	public int createOrder(Item item) {
+		return
+	}
+	
+	public void createShipment(Shipment shipment) {
+		
+	}
+	
+	public void processOrder(int orderId) {
+		
+	}
+	
+	public void printAllItemDetails() {
+		
+	}
+}

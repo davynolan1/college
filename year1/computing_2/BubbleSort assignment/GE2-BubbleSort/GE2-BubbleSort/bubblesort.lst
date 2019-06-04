@@ -1,0 +1,218 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             BubbleSort, CODE, READONLY
+    2 00000000                 IMPORT           main
+    3 00000000                 EXPORT           start
+    4 00000000         
+    5 00000000         start
+    6 00000000 E59F4088        LDR              R4, =testarr
+    7 00000004 E3A0500A        LDR              R5, =N
+    8 00000008 E3A0A001        MOV              R10, #1
+    9 0000000C         
+   10 0000000C E1A00004        MOV              R0, R4
+   11 00000010 E1A01005        MOV              R1, R5
+   12 00000014 EB000000        BL               sort
+   13 00000018 EA00001B        B                stop
+   14 0000001C         sort
+   15 0000001C E92D5FF0        STMFD            sp!, {r4-r12,lr}
+   16 00000020 E1A04000        MOV              R4, R0
+   17 00000024 E1A05001        MOV              R5, R1
+   18 00000028         sortloop
+   19 00000028 E35A0000        CMP              R10, #0
+   20 0000002C 0A00000C        BEQ              sortfinished
+   21 00000030 E3A0A000        MOV              R10, #0
+   22 00000034 E3A06001        MOV              R6, #1
+   23 00000038         for
+   24 00000038 E1560005        CMP              R6, R5
+   25 0000003C 0AFFFFF9        BEQ              sortloop
+   26 00000040 E2467001        SUB              R7, R6, #1
+   27 00000044 E7948106        LDR              R8, [R4, R6, LSL #2]
+   28 00000048 E7949107        LDR              R9, [R4, R7, LSL #2]
+   29 0000004C E1590008        CMP              R9, R8
+   30 00000050 E1A00007        MOV              R0, R7
+   31 00000054 E1A01006        MOV              R1, R6
+   32 00000058 BB000003        BLLT             swap
+   33 0000005C E2866001        ADD              R6, R6, #1
+   34 00000060 EAFFFFF4        B                for
+   35 00000064         sortfinished
+   36 00000064 E8BD9FF0        LDMFD            sp!, {r4-r12,pc}
+   37 00000068 E12FFF1E        BX               LR
+   38 0000006C         swap
+   39 0000006C E92D5FF0        STMFD            sp!, {r4-r12,lr}
+   40 00000070 E7948100        LDR              R8, [R4, R0, LSL #2]
+   41 00000074 E7949101        LDR              R9, [R4, R1, LSL #2]
+   42 00000078 E7848101        STR              R8, [R4, R1, LSL #2]
+   43 0000007C E7849100        STR              R9, [R4, R0, LSL #2]
+   44 00000080 E8BD9FF0        LDMFD            sp!, {r4-r12,pc}
+   45 00000084 E3A0A001        MOV              R10, #1
+   46 00000088 E12FFF1E        BX               LR
+   47 0000008C         
+   48 0000008C         
+   49 0000008C EAFFFFFE 
+                       stop    B                stop
+   50 00000090         
+   51 00000090         
+   52 00000090 00000000 
+              00000000         AREA             TestData, DATA, READWRITE
+   53 00000000 0000000A 
+                       N       EQU              10
+   54 00000000 00000003 
+              00000009 
+              00000002 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+              00000001 
+              00000008 
+              00000000 
+              00000007 
+              00000004 
+              00000009 
+              00000006 testarr DCD              3,9,2,1,8,0,7,4,9,6
+   55 00000028                 END
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\b
+ubblesort.d -o.\bubblesort.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\CMSIS\I
+nclude -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefine="__
+MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="NO_CLOCK
+_SETUP SETA 1" --predefine="NO_EMC_SETUP SETA 1" --predefine="RAM_INTVEC SETA 1
+" --predefine="RAM_MODE SETA 1" --predefine="REMAP SETA 1" --list=.\bubblesort.
+lst BubbleSort.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+BubbleSort 00000000
+
+Symbol: BubbleSort
+   Definitions
+      At line 1 in file BubbleSort.s
+   Uses
+      None
+Comment: BubbleSort unused
+for 00000038
+
+Symbol: for
+   Definitions
+      At line 23 in file BubbleSort.s
+   Uses
+      At line 34 in file BubbleSort.s
+Comment: for used once
+sort 0000001C
+
+Symbol: sort
+   Definitions
+      At line 14 in file BubbleSort.s
+   Uses
+      At line 12 in file BubbleSort.s
+Comment: sort used once
+sortfinished 00000064
+
+Symbol: sortfinished
+   Definitions
+      At line 35 in file BubbleSort.s
+   Uses
+      At line 20 in file BubbleSort.s
+Comment: sortfinished used once
+sortloop 00000028
+
+Symbol: sortloop
+   Definitions
+      At line 18 in file BubbleSort.s
+   Uses
+      At line 25 in file BubbleSort.s
+Comment: sortloop used once
+start 00000000
+
+Symbol: start
+   Definitions
+      At line 5 in file BubbleSort.s
+   Uses
+      At line 3 in file BubbleSort.s
+Comment: start used once
+stop 0000008C
+
+Symbol: stop
+   Definitions
+      At line 49 in file BubbleSort.s
+   Uses
+      At line 13 in file BubbleSort.s
+      At line 49 in file BubbleSort.s
+
+swap 0000006C
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: swap
+   Definitions
+      At line 38 in file BubbleSort.s
+   Uses
+      At line 32 in file BubbleSort.s
+Comment: swap used once
+8 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+TestData 00000000
+
+Symbol: TestData
+   Definitions
+      At line 52 in file BubbleSort.s
+   Uses
+      None
+Comment: TestData unused
+testarr 00000000
+
+Symbol: testarr
+   Definitions
+      At line 54 in file BubbleSort.s
+   Uses
+      At line 6 in file BubbleSort.s
+Comment: testarr used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+N 0000000A
+
+Symbol: N
+   Definitions
+      At line 53 in file BubbleSort.s
+   Uses
+      At line 7 in file BubbleSort.s
+Comment: N used once
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 2 in file BubbleSort.s
+   Uses
+      None
+Comment: main unused
+1 symbol
+352 symbols in table

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Customer.java&apos; to &apos;Bank.Customer.java&apos;&#x0D;&#x0A;- Original project: &apos;bank&apos;&#x0D;&#x0A;- Destination element: &apos;Bank.Customer.java&apos;&#x0D;&#x0A;- Original element: &apos;bank.Customer.java&apos;" description="Copy compilation unit" destination="=Inheritance Bank Program/src&lt;Bank{Customer.java" element1="/src&lt;bank{Customer.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1520433798629" units="1" version="1.0"/>
+</session>

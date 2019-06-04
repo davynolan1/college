@@ -1,0 +1,53 @@
+class TextWidget extends Widget {
+  int maxLen;
+
+  TextWidget(int x, int y, int width, int height, String label, color widgetColor, PFont font, int event, int maxLen)
+  {
+    super(x, y, width, height, label, widgetColor, font, event);
+    //this.x = x; 
+    //this.y = y; 
+    //this.width = width; 
+    //this.height = height;
+    //this.label = label; 
+    //this.widgetFont = font;
+    //this.event = event;
+    this.maxLen = maxLen;
+    this.widgetColor = widgetColor;
+  }
+
+  void append(char s)
+  {
+    if (s==BACKSPACE)
+    {
+      if ( !label.equals(""))
+      {
+        this.label = label.substring(0, label.length()-1);
+      }
+    }else if (label.length()<maxLen)
+    {
+      this.label = label+str(s);
+    }
+    // else if(key == SHIFT)
+    //{
+    //  this.label = label.substring(1,label.length()-1);
+    //}
+    /* if (s==ENTER) {
+     String input = this.getInput();
+     for (int count=0; count<reviewsList.size(); count++) {
+     ReviewObject tmpReview = (ReviewObject)reviewsList.get(count);
+     if (tmpReview.businessName.equals(searchWord)) {
+     searchedBusiness = new BusinessObject(tmpReview.businessId, reviewsList, words);
+     }
+     }
+     }*/
+  }
+
+  void clearBox()
+  {
+    this.label = "";      //when search box clicked it is cleared
+  }
+
+  String getInput() {
+    return this.label;
+  }
+}
