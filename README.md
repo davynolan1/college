@@ -1,2 +1,2 @@
 # college
-Repository for all college work completed from 3rd year onwards.
+Repository for all college work completed during my Integrated computer science course in Trinity College Dublin.
