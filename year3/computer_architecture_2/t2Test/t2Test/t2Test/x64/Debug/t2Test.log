@@ -1,0 +1,9 @@
+﻿  t2Test.cpp
+LINK : warning LNK4076: invalid incremental status file 'Z:\davynolan On My Mac\college\year3\computer_architecture_2\t2Test\t2Test\x64\Debug\t2Test.ilk' (which will be deleted); linking nonincrementally
+t2Test.obj : error LNK2019: unresolved external symbol fibX64 referenced in function wmain
+t2Test.obj : error LNK2019: unresolved external symbol min referenced in function wmain
+t2Test.obj : error LNK2019: unresolved external symbol p referenced in function wmain
+t2Test.obj : error LNK2019: unresolved external symbol gcd referenced in function wmain
+t2Test.obj : error LNK2019: unresolved external symbol q referenced in function wmain
+t2Test.obj : error LNK2001: unresolved external symbol g
+Z:\davynolan On My Mac\college\year3\computer_architecture_2\t2Test\t2Test\x64\Debug\t2Test.exe : fatal error LNK1120: 6 unresolved externals
