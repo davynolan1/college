@@ -1,29 +1,49 @@
 
-/* Decalring two counters one for number  
-of lines other for number of characters */
+
+/*** Definition Section has one variable 
+which can be accessed inside yylex()  
+and main() ***/
 %{ 
-int no_of_lines = 0; 
-int no_of_chars = 0; 
+int count = 0; 
 %} 
   
-/***rule 1 counts the number of lines,  
-rule 2 counts the number of characters  
-and rule 3 specifies when to stop  
-taking input***/
+/*** Rule Section has three rules, first rule  
+matches with capital letters, second rule 
+matches with any character except newline and  
+third rule does not take input after the enter***/
 %% 
-\n      ++no_of_lines; 
-.       ++no_of_chars; 
-end     return 0; 
+[A-Z] {printf("%s capital letter\n", yytext); 
+       count++;} 
+!   {printf("This letter is a ! hehe");}
+.     {printf("%s not a capital letter\n", yytext);} 
+\n    {return 0;} 
 %% 
   
-/*** User code section***/
+/*** Code Section prints the number of 
+capital letter present in the given input***/
 int yywrap(){} 
-int main(int argc, char **argv) 
-{ 
+int main(){ 
+  
+// Explanation: 
+// yywrap() - wraps the above rule section 
+/* yyin - takes the file pointer  
+          which contains the input*/
+/* yylex() - this is the main flex function 
+          which runs the Rule Section*/
+// yytext is the text in the buffer 
+  
+// Uncomment the lines below  
+// to take input from file 
+// FILE *fp; 
+// char filename[50]; 
+// printf("Enter the filename: \n"); 
+// scanf("%s",filename); 
+// fp = fopen(filename,"r"); 
+// yyin = fp; 
   
 yylex(); 
-printf("number of lines = %d, number of chars = %d\n", 
-       no_of_lines, no_of_chars ); 
+printf("\nNumber of Captial letters " 
+      "in the given input - %d\n", count); 
   
 return 0; 
 } 

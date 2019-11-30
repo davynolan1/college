@@ -1,4 +1,8 @@
-man(bob).
-man(john).
-woman(mary).
-marry(john, mary).
+house_elf(dobby).        
+witch(hermione).      
+witch("McGonagall").      
+witch(rita_skeeter). 
+wizard(harry).      
+magic(X):- house_elf(X).      
+magic(X):- wizard(X).      
+magic(X):- witch(X).
