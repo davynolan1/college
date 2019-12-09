@@ -38,8 +38,19 @@ foldl1'           :: (a -> a -> a) -> [a] -> a
 foldl1' f (x:xs)  =  foldl' f x xs
 foldl1' _ []      =  error "Prelude.foldl1: empty list"
 
+
+
+f1 [] = 42
+f1 (x:xs) = x * f1 xs
+
+hof :: [a] -> [a] -> (a -> a) -> (a -> a) -> (a -> a -> b) -> [b]
+hof [] _ _ _ _ = []
+hof _ [] _ _ _ = []
+hof (x:xs) (y:ys) t1 t2 f = (f ((t1 x) (t2 y))) : (hof xs ys t1 t2 f)
+
+
 main = do
-    print(foldl1' (*) [1,2,3,4])
+    print(hof [1,2] [3,4] (\x -> x) (\y -> y) (*))
 
 
 

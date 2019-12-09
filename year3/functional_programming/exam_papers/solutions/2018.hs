@@ -37,21 +37,17 @@ filter' :: (a -> Bool) -> [a] -> [a]
 filter' f xs = [x | x <- xs, f x]
 
 --1.f
-maximum' :: Ord a => [a] -> a
-maximum' [] = error "max of empty list"
-maximum' [x] = x
-maximum' (x:xs) = max' x (maximum' xs)
 
-max' :: Ord a => a -> a -> a
-max' a b
-  | a > b   = a
-  | a < b   = b
-  | a == b  = a
+maximum' :: Ord a => [a] -> a
+maximum' [x] = x
+maximum' (x:y:xs)  
+  | x > y = maximum' (x:xs)
+  | otherwise =  maximum' (y:xs)
+
 
 
 main = do
-    print(reverse' [1,2,3])
-    print(reverse [1,2,3])
+    print(maximum' [2,3,6,2,8,2,1])
 
 
 
