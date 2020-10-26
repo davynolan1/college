@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/davynolan/.platformio/penv/bin/python"
+    "python.pythonPath": "/Users/davynolan/.platformio/penv/bin/python",
+    "C_Cpp.errorSquiggles": "Enabled"
 }

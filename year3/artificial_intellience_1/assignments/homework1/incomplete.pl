@@ -1,0 +1,70 @@
+%Given code:
+:- dynamic(kb/1).
+
+makeKB(File):- open(File,read,Str),
+               readK(Str,K), 
+               reformat(K,KB), 
+               asserta(kb(KB)), 
+               close(Str).                  
+   
+readK(Stream,[]):- at_end_of_stream(Stream),!.
+readK(Stream,[X|L]):- read(Stream,X),
+                      readK(Stream,L).
+
+reformat([],[]).
+reformat([end_of_file],[]) :- !.
+reformat([:-(H,B)|L],[[H|BL]|R]) :- !,  
+                                    mkList(B,BL),
+                                    reformat(L,R).
+reformat([A|L],[[A]|R]) :- reformat(L,R).
+    
+mkList((X,T),[X|R]) :- !, mkList(T,R).
+mkList(X,[X]).
+
+initKB(File) :- retractall(kb(_)), makeKB(File).
+
+
+
+%Answer:
+
+astar(Node,Path,Cost) :- kb(KB), 
+						 astar2([[Node, [], 0]],Path,Cost,KB).
+
+
+
+
+
+
+astar2([[Node, Path, Cost]|_], [Node,Path], Cost, _) :- goal(Node).
+astar2([[Node, P, C]|R], Path, Cost, KB) :- 
+							findall([X,[Node|P],Sum], (arc(Node, X, Y, KB), Sum is Y+C), Children),
+							addtofrontier(Children, R, Tmp),
+							min_sort(Tmp, [[N1, P1, C1]|T1]),
+							astar2([[N1, P1, C1]|T1], Path, Cost, KB).
+
+addtofrontier(Children, Frontier, NewFrontier) :- append(Children, Frontier, NewFrontier).  %f(node) = cost(node) + h(node).
+
+min_sort([Head|Tail], Result) :- sort(Head, [], Tail, Result).
+sort(Head, S, [], [Head|S]).
+sort(C, S, [Head|Tail], Result) :- less(C, Head), !,
+								   sort(C, [Head|S], Tail, Result);
+								   sort(Head, [C|S], Tail, Result).
+ 
+
+less([Node1,_,Cost1|_],[Node2,_,Cost2|_]) :-    heur_alg(Node1,Hvalue1), 					                              
+                                                heur_alg(Node2,Hvalue2),
+                                                F1 is Cost1+Hvalue1, 
+                                                F2 is Cost2+Hvalue2,
+                                                F1 =< F2.
+
+arc([H|T],Node,Cost,KB) :- member([H|B],KB), 
+						   append(B,T,Node),
+						   length(B,L), 
+						   Cost is L+1.
+
+heur_alg(Node, H) :- length(Node, H).
+
+
+
+
+goal([]).
