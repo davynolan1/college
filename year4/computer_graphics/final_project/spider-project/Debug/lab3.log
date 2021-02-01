@@ -1,0 +1,11 @@
+﻿  main.cpp
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\shader.h(47,35): warning C4101: 'e': unreferenced local variable
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(126,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(127,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(900,21): warning C4805: '==': unsafe mix of type 'GLboolean' and type 'bool' in operation
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(923,21): warning C4805: '==': unsafe mix of type 'GLboolean' and type 'bool' in operation
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(955,21): warning C4244: 'initializing': conversion from 'DWORD' to 'float', possible loss of data
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(1082,27): warning C4805: '==': unsafe mix of type 'GLboolean' and type 'bool' in operation
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(1132,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\lab3\main.cpp(1133,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  lab3.vcxproj -> C:\Users\Davy Nolan\Documents\Computer Graphics\lab3\Debug\lab3.exe
